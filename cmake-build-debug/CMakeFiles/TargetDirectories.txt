@@ -1,0 +1,3 @@
+/home/herberthreyes/EDD/Proyecto1/cmake-build-debug/CMakeFiles/Proyecto1.dir
+/home/herberthreyes/EDD/Proyecto1/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/herberthreyes/EDD/Proyecto1/cmake-build-debug/CMakeFiles/rebuild_cache.dir
