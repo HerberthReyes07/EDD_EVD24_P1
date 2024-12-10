@@ -10,4 +10,12 @@ add_executable(Proyecto1 main.cpp
         includes/Administrador.h
         src/Cliente.cpp
         src/Administrador.cpp
+        includes/Activo.h
+        includes/Transaccion.h
+        src/Activo.cpp
+        src/Transaccion.cpp
+        includes/matrizDispersa/Nodo.h
+        includes/matrizDispersa/MatrizDispersa.h
+        src/matrizDispersa/Nodo.cpp
+        src/matrizDispersa/MatrizDispersa.cpp
 )

@@ -73,6 +73,30 @@ build CMakeFiles/Proyecto1.dir/src/Administrador.cpp.o: CXX_COMPILER__Proyecto1_
   OBJECT_DIR = CMakeFiles/Proyecto1.dir
   OBJECT_FILE_DIR = CMakeFiles/Proyecto1.dir/src
 
+build CMakeFiles/Proyecto1.dir/src/Activo.cpp.o: CXX_COMPILER__Proyecto1_unscanned_Debug /home/herberthreyes/EDD/Proyecto1/src/Activo.cpp || cmake_object_order_depends_target_Proyecto1
+  DEP_FILE = CMakeFiles/Proyecto1.dir/src/Activo.cpp.o.d
+  FLAGS = -g -std=gnu++23 -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles/Proyecto1.dir
+  OBJECT_FILE_DIR = CMakeFiles/Proyecto1.dir/src
+
+build CMakeFiles/Proyecto1.dir/src/Transaccion.cpp.o: CXX_COMPILER__Proyecto1_unscanned_Debug /home/herberthreyes/EDD/Proyecto1/src/Transaccion.cpp || cmake_object_order_depends_target_Proyecto1
+  DEP_FILE = CMakeFiles/Proyecto1.dir/src/Transaccion.cpp.o.d
+  FLAGS = -g -std=gnu++23 -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles/Proyecto1.dir
+  OBJECT_FILE_DIR = CMakeFiles/Proyecto1.dir/src
+
+build CMakeFiles/Proyecto1.dir/src/matrizDispersa/Nodo.cpp.o: CXX_COMPILER__Proyecto1_unscanned_Debug /home/herberthreyes/EDD/Proyecto1/src/matrizDispersa/Nodo.cpp || cmake_object_order_depends_target_Proyecto1
+  DEP_FILE = CMakeFiles/Proyecto1.dir/src/matrizDispersa/Nodo.cpp.o.d
+  FLAGS = -g -std=gnu++23 -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles/Proyecto1.dir
+  OBJECT_FILE_DIR = CMakeFiles/Proyecto1.dir/src/matrizDispersa
+
+build CMakeFiles/Proyecto1.dir/src/matrizDispersa/MatrizDispersa.cpp.o: CXX_COMPILER__Proyecto1_unscanned_Debug /home/herberthreyes/EDD/Proyecto1/src/matrizDispersa/MatrizDispersa.cpp || cmake_object_order_depends_target_Proyecto1
+  DEP_FILE = CMakeFiles/Proyecto1.dir/src/matrizDispersa/MatrizDispersa.cpp.o.d
+  FLAGS = -g -std=gnu++23 -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles/Proyecto1.dir
+  OBJECT_FILE_DIR = CMakeFiles/Proyecto1.dir/src/matrizDispersa
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target Proyecto1
@@ -81,7 +105,7 @@ build CMakeFiles/Proyecto1.dir/src/Administrador.cpp.o: CXX_COMPILER__Proyecto1_
 #############################################
 # Link the executable Proyecto1
 
-build Proyecto1: CXX_EXECUTABLE_LINKER__Proyecto1_Debug CMakeFiles/Proyecto1.dir/main.cpp.o CMakeFiles/Proyecto1.dir/src/Usuario.cpp.o CMakeFiles/Proyecto1.dir/src/Cliente.cpp.o CMakeFiles/Proyecto1.dir/src/Administrador.cpp.o
+build Proyecto1: CXX_EXECUTABLE_LINKER__Proyecto1_Debug CMakeFiles/Proyecto1.dir/main.cpp.o CMakeFiles/Proyecto1.dir/src/Usuario.cpp.o CMakeFiles/Proyecto1.dir/src/Cliente.cpp.o CMakeFiles/Proyecto1.dir/src/Administrador.cpp.o CMakeFiles/Proyecto1.dir/src/Activo.cpp.o CMakeFiles/Proyecto1.dir/src/Transaccion.cpp.o CMakeFiles/Proyecto1.dir/src/matrizDispersa/Nodo.cpp.o CMakeFiles/Proyecto1.dir/src/matrizDispersa/MatrizDispersa.cpp.o
   FLAGS = -g
   OBJECT_DIR = CMakeFiles/Proyecto1.dir
   POST_BUILD = :

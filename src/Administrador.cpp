@@ -11,16 +11,16 @@ Administrador::Administrador() {
 Administrador::~Administrador() {
 };
 
-Administrador::Administrador(Usuario *usuario) {
-    this->usuario = usuario;
+Administrador::Administrador(MatrizDispersa *matriz) {
+    this->matriz = matriz;
 }
 
-Usuario *Administrador::getUsuario() {
-    return this->usuario;
+MatrizDispersa *Administrador::getMatriz() {
+    return this->matriz;
 }
 
-void Administrador::setUsuario(Usuario *usuario) {
-    this->usuario = usuario;
+void Administrador::setMatriz(MatrizDispersa *matriz) {
+    this->matriz = matriz;
 }
 
 void Administrador::menu() {
@@ -104,12 +104,36 @@ void Administrador::menu() {
 
 void Administrador::registrarUsuario() {
     cout << "$$$$$$$$$$$$$$$$$$$$      Registrar Usuario        $$$$$$$$$$$$$$$$$$$$\n" << endl;
-    /*//Usuario usuario = new Usuario();
-    //cin >> usuario.usuario; ...
-    cout << "Ingresar Usuario: ";
-    cout << "Ingresar Contraseña: ";
-    cout << "Ingresar Departamento: ";
-    cout << "Ingresar Empresa: ";*/
+
+    while (true) {
+        string username;
+        cout << "Ingresar Usuario: ";
+        cin >> username;
+
+        string password;
+        cout << "Ingresar Contraseña: ";
+        cin >> password;
+
+        string nombre;
+        cout << "Ingresar Nombre: ";
+        cin >> nombre;
+
+        string departamento;
+        cout << "Ingresar Departamento: ";
+        cin >> departamento;
+
+        string empresa;
+        cout << "Ingresar Empresa: ";
+        cin >> empresa;
+
+        Usuario *usuario = new Usuario(username, password, nombre, departamento, empresa);
+        if (this->matriz->buscarUsuario(usuario) != nullptr) {
+            cout << "Error!. Ya existe un usuario con mismos: username, departamento y empresa\n" << endl;
+        } else {
+            this->matriz->insertarUsuario(usuario);
+            break;
+        }
+    }
 }
 
 void Administrador::reporteMatrizDispersa() {
@@ -131,4 +155,32 @@ void Administrador::activosRentadosUsuario() {
 }
 
 void Administrador::ordenarTransacciones() {
+}
+
+bool Administrador::insertarAtras(string username) {
+    while (true) {
+        cout << "$$$$$$$$$$$$$$$$$$$$      1. Insertar adelante de usuario: " << username <<
+                "        $$$$$$$$$$$$$$$$$$$$\n" <<
+                endl;
+        cout << "$$$$$$$$$$$$$$$$$$$$      2. Insertar atrás de usuario: " << username <<
+                "        $$$$$$$$$$$$$$$$$$$$\n"
+                << endl;
+
+        int opcion;
+        cout << "Ingresar opción: ";
+        cin >> opcion;
+
+        switch (opcion) {
+            case 1: {
+                return false;
+            }
+            case 2: {
+                return true;
+            }
+            default: {
+                cout << "Error!. Por favor ingrese una opción válida\n" << endl;
+                break;
+            }
+        }
+    }
 }

@@ -5,30 +5,42 @@
 #ifndef ADMINISTRADOR_H
 #define ADMINISTRADOR_H
 
-#include "Usuario.h"
+#include "matrizDispersa/MatrizDispersa.h"
 
 class Administrador {
-    Usuario *usuario;
+private:
+    MatrizDispersa *matriz;
 
 public:
-    Administrador(Usuario *usuario);
     Administrador();
+
     ~Administrador();
 
-    Usuario *getUsuario();
-    void setUsuario(Usuario *usuario);
+    Administrador(MatrizDispersa *matriz);
+
+    MatrizDispersa *getMatriz();
+
+    void setMatriz(MatrizDispersa *matriz);
 
     void menu();
+
     void registrarUsuario();
+
     void reporteMatrizDispersa();
+
     void reporteActivosDisponiblesDepartamento();
+
     void reporteActivosDisponiblesEmpresa();
+
     void reporteTransacciones();
+
     void reporteActivosUsuario();
+
     void activosRentadosUsuario();
+
     void ordenarTransacciones();
 
-
+    bool insertarAtras(std::string username);
 };
 
 #endif //ADMINISTRADOR_H

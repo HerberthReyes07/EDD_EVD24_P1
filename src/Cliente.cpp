@@ -4,6 +4,7 @@
 
 #include "../includes/Cliente.h"
 
+
 using namespace std;
 
 Cliente::Cliente() {
@@ -12,23 +13,33 @@ Cliente::Cliente() {
 Cliente::~Cliente() {
 };
 
-Cliente::Cliente(Usuario *usuario) {
+Cliente::Cliente(Nodo *usuario, MatrizDispersa *matriz) {
     this->usuario = usuario;
+    this->matriz = matriz;
 }
 
-Usuario *Cliente::getUsuario() {
+Nodo *Cliente::getUsuario() {
     return this->usuario;
 }
 
-void Cliente::setUsuario(Usuario *usuario) {
+void Cliente::setUsuario(Nodo *usuario) {
     this->usuario = usuario;
+}
+
+MatrizDispersa *Cliente::getMatriz() {
+    return this->matriz;
+}
+
+void Cliente::setMatriz(MatrizDispersa *matriz) {
+    this->matriz = matriz;
 }
 
 void Cliente::menu() {
     bool sesionCerrada = false;
     while (true) {
         cout << "$$$$$$$$$$$$$$$$$$$$     Renta de Activos       $$$$$$$$$$$$$$$$$$$$" << endl;
-        cout << "$$$$$$$$$$$$$$$$$$$$       " << this->usuario->getUsername() << "          $$$$$$$$$$$$$$$$$$$$" <<
+        cout << "$$$$$$$$$$$$$$$$$$$$       " << this->usuario->getUsuario()->getUsername() <<
+                "          $$$$$$$$$$$$$$$$$$$$" <<
                 endl;
         cout << "$$$$$$$$$$$$$$$$$$$$   1. Agregar Activo        $$$$$$$$$$$$$$$$$$$$" << endl;
         cout << "$$$$$$$$$$$$$$$$$$$$   2. Eliminar Activo       $$$$$$$$$$$$$$$$$$$$" << endl;

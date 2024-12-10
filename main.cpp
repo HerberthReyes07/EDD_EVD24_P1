@@ -2,12 +2,30 @@
 #include "includes/Usuario.h"
 #include "includes/Cliente.h"
 #include "includes/Administrador.h"
+#include "includes/matrizDispersa/MatrizDispersa.h"
 
 using namespace std;
 
 int main() {
     int opcion;
-    //ver lo de cuando se ingresa una letra cuando se espera un int
+    MatrizDispersa *matriz = new MatrizDispersa();
+    Usuario *usuario1 = new Usuario("U1", "U1", "U1", "Guatemala", "Max");
+    Usuario *usuario2 = new Usuario("U2", "U2", "U2", "Xela", "Max");
+    Usuario *usuario6 = new Usuario("U6", "U6", "U6", "Alta Verapaz", "Cemaco");
+    Usuario *usuario4 = new Usuario("U4", "U4", "U4", "Guatemala", "Cemaco");
+    Usuario *usuario3 = new Usuario("U3", "U3", "U3", "Alta Verapaz", "Max");
+    Usuario *usuario8 = new Usuario("U8", "U8", "U8", "Xela", "Campero");
+    Usuario *usuario5 = new Usuario("U5", "U5", "U5", "Xela", "Cemaco");
+    Usuario *usuario51 = new Usuario("U51", "U51", "U51", "Xela", "Cemaco");
+
+    matriz->insertarUsuario(usuario1);
+    matriz->insertarUsuario(usuario2);
+    matriz->insertarUsuario(usuario6);
+    matriz->insertarUsuario(usuario4);
+    matriz->insertarUsuario(usuario3);
+    matriz->insertarUsuario(usuario8);
+    matriz->insertarUsuario(usuario5);
+    matriz->insertarUsuario(usuario51);
 
     while (true) {
         cout << "$$$$$$$$$$$$$$$$$$$$  Renta de Activos  $$$$$$$$$$$$$$$$$$$$" << endl;
@@ -19,50 +37,51 @@ int main() {
 
         switch (opcion) {
             case 1: {
-                cout << "$$$$$$$$$$$$$$$$$$$$ Renta de Activos $$$$$$$$$$$$$$$$$$$$" << endl;
-                cout << "$$$$$$$$$$$$$$$$$$$$      Login       $$$$$$$$$$$$$$$$$$$$\n" << endl;
+                while (true) {
+                    cout << "$$$$$$$$$$$$$$$$$$$$ Renta de Activos $$$$$$$$$$$$$$$$$$$$" << endl;
+                    cout << "$$$$$$$$$$$$$$$$$$$$      Login       $$$$$$$$$$$$$$$$$$$$\n" << endl;
 
-                Usuario *usuario = new Usuario();
-                bool esAdmin = true;
+                    Usuario *usuario = new Usuario();
 
-                string username;
-                cout << "Ingresar Usuario: ";
-                cin >> username;
-                usuario->setUsersname(username);
+                    string username;
+                    cout << "Ingresar Usuario: ";
+                    cin >> username;
+                    usuario->setUsersname(username);
 
-                string password;
-                cout << "Ingresar Contraseña: ";
-                cin >> password;
-                usuario->setPassword(password);
+                    string password;
+                    cout << "Ingresar Contraseña: ";
+                    cin >> password;
+                    usuario->setPassword(password);
 
-                if (username != "admin" && password != "admin") {
-                    esAdmin = false;
-                    string departamento;
-                    cout << "Ingresar Departamento: ";
-                    cin >> departamento;
-                    usuario->setDepartamento(departamento);
+                    if (username != "admin" && password != "admin") {
+                        //El usuario no es admin
+                        string departamento;
+                        cout << "Ingresar Departamento: ";
+                        cin >> departamento;
+                        usuario->setDepartamento(departamento);
 
-                    string empresa;
-                    cout << "Ingresar Empresa: ";
-                    cin >> empresa;
-                    usuario->setEmpresa(empresa);
-                }
+                        string empresa;
+                        cout << "Ingresar Empresa: ";
+                        cin >> empresa;
+                        usuario->setEmpresa(empresa);
 
-                /*if (!esAdmin) {
-                    //buscar usuario
-                    //si no existe -> break;
-                }*/
-
-                //Usuario encontrado, sigue la ejecucion
-
-                if (!esAdmin) {
-                    //El usuario no es admin
-                    Cliente *cliente = new Cliente(usuario);
-                    cliente->menu();
-                } else {
-                    //El usuario es admin
-                    Administrador *administrador = new Administrador(usuario);
-                    administrador->menu();
+                        //buscar usuario
+                        Nodo *nodoUsuario = matriz->buscarUsuario(usuario);
+                        if (nodoUsuario == nullptr) {
+                            cout << "No se encontro el usuario. Porfavor intentelo denuevo\n" << endl;
+                            //break;
+                        } else {
+                            //Usuario encontrado, sigue la ejecucion, pasar nodoUsuario y matrizDispersa
+                            Cliente *cliente = new Cliente(nodoUsuario, matriz);
+                            cliente->menu();
+                            break;
+                        }
+                    } else {
+                        //El usuario es admin
+                        Administrador *administrador = new Administrador(matriz);
+                        administrador->menu();
+                        break;
+                    }
                 }
                 break;
             }
@@ -76,5 +95,4 @@ int main() {
         }
     }
 
-    return 0;
 }
