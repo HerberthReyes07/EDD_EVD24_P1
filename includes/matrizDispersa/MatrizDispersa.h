@@ -9,6 +9,7 @@
 
 class MatrizDispersa {
 private:
+    int cont;
     Nodo *cabezaHorizontal;
     Nodo *cabezaVertical;
 
@@ -16,6 +17,14 @@ public:
     MatrizDispersa();
 
     ~MatrizDispersa();
+
+    int getCont();
+
+    void setCont(int cont);
+
+    Nodo* getCH();
+
+    Nodo *getCV();
 
     Nodo *getCabezaHorizontal(std::string departamento);
 

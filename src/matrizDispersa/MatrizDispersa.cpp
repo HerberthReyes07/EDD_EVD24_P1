@@ -4,13 +4,32 @@
 #include "../../includes/matrizDispersa/MatrizDispersa.h"
 #include "../../includes/Administrador.h"
 
+//int cont;
+
 MatrizDispersa::MatrizDispersa() {
+    cont = 0;
     this->cabezaHorizontal = nullptr;
     this->cabezaVertical = nullptr;
 }
 
 MatrizDispersa::~MatrizDispersa() {
 };
+
+int MatrizDispersa::getCont() {
+    return this->cont;
+}
+
+void MatrizDispersa::setCont(int cont) {
+    this->cont = cont;
+}
+
+Nodo *MatrizDispersa::getCH() {
+    return this->cabezaHorizontal;
+}
+
+Nodo *MatrizDispersa::getCV() {
+    return this->cabezaVertical;
+}
 
 Nodo *MatrizDispersa::getCabezaHorizontal(std::string departamento) {
     if (estaVacia()) {
@@ -46,8 +65,13 @@ Nodo *MatrizDispersa::setCabezaHorizontal(std::string departamento) {
     Usuario *cabecera = new Usuario();
     cabecera->setDepartamento(departamento);
     Nodo *nuevaCabezaHorizontal = new Nodo(cabecera);
+    cont ++;
+    nuevaCabezaHorizontal->setIdNodo(cont);
 
     if (this->cabezaHorizontal == nullptr) {
+
+        nuevaCabezaHorizontal->setGrupoVertical(2);
+        //nuevaCabezaHorizontal->setIdNodo(1);
         this->cabezaHorizontal = nuevaCabezaHorizontal;
         return nuevaCabezaHorizontal;
     }
@@ -59,6 +83,7 @@ Nodo *MatrizDispersa::setCabezaHorizontal(std::string departamento) {
 
     aux->setSiguiente(nuevaCabezaHorizontal);
     nuevaCabezaHorizontal->setAnterior(aux);
+    nuevaCabezaHorizontal->setGrupoVertical(aux->getGrupoVertical() + 1);
     return nuevaCabezaHorizontal;
 }
 
@@ -66,8 +91,13 @@ Nodo *MatrizDispersa::setCabezaVertical(std::string empresa) {
     Usuario *cabecera = new Usuario();
     cabecera->setEmpresa(empresa);
     Nodo *nuevaCabezaVertical = new Nodo(cabecera);
+    cont++;
+    nuevaCabezaVertical->setIdNodo(cont);
+    nuevaCabezaVertical->setGrupoVertical(1);
 
     if (this->cabezaVertical == nullptr) {
+
+        //nuevaCabezaVertical->setIdNodo(2);
         this->cabezaVertical = nuevaCabezaVertical;
         return nuevaCabezaVertical;
     }
@@ -126,7 +156,6 @@ Nodo *MatrizDispersa::buscarUsuario(Usuario *usuario) {
     return nullptr;
 }
 
-
 bool MatrizDispersa::estaVacia() {
     return this->cabezaHorizontal == nullptr && this->cabezaVertical == nullptr;
 }
@@ -153,13 +182,15 @@ bool MatrizDispersa::masDerecha(Nodo *cabeceraHorizontal, Nodo *departamento) {
     return false;
 }
 
-
 void MatrizDispersa::insertarUsuario(Usuario *usuario) {
     Nodo *departamento = nullptr;
     Nodo *empresa = nullptr;
     Nodo *usuarioNuevo = new Nodo(usuario);
+    cont++;
+    usuarioNuevo->setIdNodo(cont);
 
     if (estaVacia()) {
+        //cont = 0;
         departamento = setCabezaHorizontal(usuario->getDepartamento());
         empresa = setCabezaVertical(usuario->getEmpresa());
         insertarUsuarioAlFinal(usuarioNuevo, departamento, empresa);
@@ -189,6 +220,8 @@ void MatrizDispersa::insertarUsuario(Usuario *usuario) {
     }
 
     //las cabeceras ya existen
+    usuarioNuevo->setGrupoVertical(departamento->getGrupoVertical());
+
     Nodo *auxUsuario = empresa->getSiguiente();
     while (auxUsuario != nullptr) {
         Nodo *cabeceraHorizontal = buscarCabezaHorizontal(auxUsuario);
@@ -245,10 +278,14 @@ void MatrizDispersa::insertarUsuarioAtrasAdelante(Nodo *usuarioNuevo, Nodo *usua
     if (insertarAtras) {
         usuarioActual->setAtras(usuarioNuevo);
         usuarioNuevo->setAdelante(usuarioActual);
+        //usuarioNuevo->setIdNodo(usuarioActual->getIdNodo());
         return;
     }
 
     usuarioNuevo->setAtras(usuarioActual);
+    /*cont++;
+    usuarioNuevo->setIdNodo(cont);*/
+    //usuarioNuevo->setGrupoVertical(usuarioActual->getGrupoVertical());
 
     if (usuarioActual->getSiguiente() != nullptr) {
         usuarioNuevo->setSiguiente(usuarioActual->getSiguiente());
@@ -293,6 +330,9 @@ void MatrizDispersa::insertarUsuarioEnMedioVertical(Nodo *usuario, Nodo *siguien
 
 
 void MatrizDispersa::insertarUsuarioAlFinal(Nodo *usuarioNuevo, Nodo *cabeceraHorizontal, Nodo *cabeceraVertical) {
+    /*cont++;
+    usuarioNuevo->setIdNodo(cont);*/
+    usuarioNuevo->setGrupoVertical(cabeceraHorizontal->getGrupoVertical());
     insertarUsuarioAlFinalHorizontal(usuarioNuevo, cabeceraHorizontal);
     insertarUsuarioAlFinalVertical(usuarioNuevo, cabeceraVertical);
 }

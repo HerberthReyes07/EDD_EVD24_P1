@@ -15,6 +15,8 @@ private:
     Nodo *abajo;
     Nodo *adelante;
     Nodo *atras;
+    int idNodo;
+    int grupoVertical;
 
 public:
     Nodo();
@@ -37,6 +39,10 @@ public:
 
     Nodo *getAtras();
 
+    int getIdNodo();
+
+    int getGrupoVertical();
+
     void setUsuario(Usuario *usuario);
 
     void setSiguiente(Nodo *siguiente);
@@ -50,5 +56,9 @@ public:
     void setAdelante(Nodo *adelante);
 
     void setAtras(Nodo *atras);
+
+    void setIdNodo(int idNodo);
+
+    void setGrupoVertical(int grupoVertical);
 };
 #endif //NODO_H

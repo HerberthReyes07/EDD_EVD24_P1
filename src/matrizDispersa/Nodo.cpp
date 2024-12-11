@@ -45,6 +45,14 @@ Nodo *Nodo::getAtras() {
     return this->atras;
 }
 
+int Nodo::getIdNodo() {
+    return this->idNodo;
+}
+
+int Nodo::getGrupoVertical() {
+    return this->grupoVertical;
+}
+
 void Nodo::setSiguiente(Nodo *siguiente) {
     this->siguiente = siguiente;
 }
@@ -69,4 +77,11 @@ void Nodo::setAtras(Nodo *atras) {
     this->atras = atras;
 }
 
+void Nodo::setIdNodo(int idNodo) {
+    this->idNodo = idNodo;
+}
+
+void Nodo::setGrupoVertical(int grupoVertical) {
+    this->grupoVertical = grupoVertical;
+}
 

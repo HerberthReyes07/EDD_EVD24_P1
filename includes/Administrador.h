@@ -41,6 +41,8 @@ public:
     void ordenarTransacciones();
 
     bool insertarAtras(std::string username);
+
+    void graficar(std::string path, std::string grafico);
 };
 
 #endif //ADMINISTRADOR_H
