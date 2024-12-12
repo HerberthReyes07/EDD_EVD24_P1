@@ -13,16 +13,16 @@ Cliente::Cliente() {
 Cliente::~Cliente() {
 };
 
-Cliente::Cliente(Nodo *usuario, MatrizDispersa *matriz) {
+Cliente::Cliente(NodoMD *usuario, MatrizDispersa *matriz) {
     this->usuario = usuario;
     this->matriz = matriz;
 }
 
-Nodo *Cliente::getUsuario() {
+NodoMD *Cliente::getUsuario() {
     return this->usuario;
 }
 
-void Cliente::setUsuario(Nodo *usuario) {
+void Cliente::setUsuario(NodoMD *usuario) {
     this->usuario = usuario;
 }
 
@@ -256,3 +256,19 @@ void Cliente::misActivosRentados() {
         }
     }
 }
+
+std::string Cliente::generarAlfanumerico() {
+    string id = "";
+    //srand(time(nullptr));
+    for (int i = 0; i < 15; i++) {
+        int opcion = rand() % 2;
+        if (opcion == 0) {
+            id += to_string(rand() % 10);
+        } else {
+            char letra = 97 + rand() % 26;
+            id += letra;
+        }
+    }
+    return id;
+}
+

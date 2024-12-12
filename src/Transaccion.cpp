@@ -9,15 +9,21 @@ Transaccion::Transaccion() {
 Transaccion::~Transaccion() {
 };
 
-Transaccion::Transaccion(std::string id, int tiempoRenta, Usuario *usuario, Activo *activo) {
+Transaccion::Transaccion(std::string id, std::string tipo, int tiempoRenta, Usuario *usuario, Activo *activo, std::string fecha) {
     this->id = id;
+    this->tipo = tipo;
     this->tiempoRenta = tiempoRenta;
     this->usuario = usuario;
     this->activo = activo;
+    this->fecha = fecha;
 }
 
 std::string Transaccion::getId() {
     return this->id;
+}
+
+std::string Transaccion::getTipo() {
+    return this->tipo;
 }
 
 int Transaccion::getTiempoRenta() {
@@ -32,8 +38,16 @@ Activo *Transaccion::getActivo() {
     return this->activo;
 }
 
+std::string Transaccion::getFecha() {
+    return this->fecha;
+}
+
 void Transaccion::setId(std::string id) {
     this->id = id;
+}
+
+void Transaccion::setTipo(std::string tipo) {
+    this->tipo = tipo;
 }
 
 void Transaccion::setTiempoRenta(int tiempoRenta) {
@@ -46,4 +60,8 @@ void Transaccion::setUsuario(Usuario *usuario) {
 
 void Transaccion::setActivo(Activo *activo) {
     this->activo = activo;
+}
+
+void Transaccion::setFecha(std::string fecha) {
+    this->fecha = fecha;
 }

@@ -5,18 +5,20 @@
 #ifndef ADMINISTRADOR_H
 #define ADMINISTRADOR_H
 
+#include "listaCircularDoblementeEnlazada/ListaCircularDoble.h"
 #include "matrizDispersa/MatrizDispersa.h"
 
 class Administrador {
 private:
     MatrizDispersa *matriz;
+    ListaCircularDoble *listaCircularDoble;
 
 public:
     Administrador();
 
     ~Administrador();
 
-    Administrador(MatrizDispersa *matriz);
+    Administrador(MatrizDispersa *matriz, ListaCircularDoble *listaCircularDoble);
 
     MatrizDispersa *getMatriz();
 
@@ -32,13 +34,13 @@ public:
 
     void reporteActivosDisponiblesEmpresa();
 
-    void reporteTransacciones();
+    void reporteTransacciones(ListaCircularDoble *lcde, std::string nombre, int orden);
 
     void reporteActivosUsuario();
 
     void activosRentadosUsuario();
 
-    void ordenarTransacciones();
+    void ordenarTransacciones(std::string nombreOrden, int orden);
 
     bool insertarAtras(std::string username);
 

@@ -11,14 +11,15 @@ private:
     std::string id;
     std::string nombre;
     std::string descripcion;
-    //bool estaRentado
+    int tiempoMaxRenta;
+    bool estaRentado;
 
 public:
     Activo();
 
     ~Activo();
 
-    Activo(std::string id, std::string nombre, std::string descripcion);
+    Activo(std::string id, std::string nombre, std::string descripcion, int tiempoMaxRenta, bool estaRentado);
 
     std::string getId();
 
@@ -26,11 +27,19 @@ public:
 
     std::string getDescripcion();
 
+    int getTiempoMaxRenta();
+
+    bool getEstaRentado();
+
     void setId(std::string id);
 
     void setNombre(std::string nombre);
 
     void setDescripcion(std::string descripcion);
+
+    void setTiempoMaxRenta(int tiempoMaxRenta);
+
+    void setEstaRentado(bool estaRentado);
 };
 
 #endif //ACTIVO_H

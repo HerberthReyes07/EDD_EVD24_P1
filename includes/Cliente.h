@@ -7,27 +7,27 @@
 
 #include "Usuario.h"
 #include"matrizDispersa/MatrizDispersa.h"
-#include "matrizDispersa/Nodo.h"
+#include "matrizDispersa/NodoMD.h"
 
 class Cliente {
 private:
-    MatrizDispersa* matriz;
-    Nodo *usuario;
+    MatrizDispersa *matriz;
+    NodoMD *usuario;
 
 public:
     Cliente();
 
     ~Cliente();
 
-    Cliente(Nodo *usuario, MatrizDispersa* matriz);
+    Cliente(NodoMD *usuario, MatrizDispersa *matriz);
 
-    Nodo *getUsuario();
+    NodoMD *getUsuario();
 
-    void setUsuario(Nodo *usuario);
+    void setUsuario(NodoMD *usuario);
 
-    MatrizDispersa* getMatriz();
+    MatrizDispersa *getMatriz();
 
-    void setMatriz(MatrizDispersa* matriz);
+    void setMatriz(MatrizDispersa *matriz);
 
     void menu();
 
@@ -42,6 +42,8 @@ public:
     void activosRentados();
 
     void misActivosRentados();
+
+    std::string generarAlfanumerico();
 };
 
 #endif //CLIENTE_H

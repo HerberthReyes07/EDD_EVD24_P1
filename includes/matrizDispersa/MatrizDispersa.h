@@ -4,14 +4,14 @@
 
 #ifndef MATRIZDISPERSA_H
 #define MATRIZDISPERSA_H
-#include "Nodo.h"
+#include "NodoMD.h"
 #include "../Usuario.h"
 
 class MatrizDispersa {
 private:
     int cont;
-    Nodo *cabezaHorizontal;
-    Nodo *cabezaVertical;
+    NodoMD *cabezaHorizontal;
+    NodoMD *cabezaVertical;
 
 public:
     MatrizDispersa();
@@ -22,42 +22,42 @@ public:
 
     void setCont(int cont);
 
-    Nodo* getCH();
+    NodoMD* getCH();
 
-    Nodo *getCV();
+    NodoMD *getCV();
 
-    Nodo *getCabezaHorizontal(std::string departamento);
+    NodoMD *getCabezaHorizontal(std::string departamento);
 
-    Nodo *getCabezaVertical(std::string empresa);
+    NodoMD *getCabezaVertical(std::string empresa);
 
-    Nodo *setCabezaHorizontal(std::string departamento);
+    NodoMD *setCabezaHorizontal(std::string departamento);
 
-    Nodo *setCabezaVertical(std::string empresa);
+    NodoMD *setCabezaVertical(std::string empresa);
 
-    Nodo *buscarCabezaHorizontal(Nodo *usuario);
+    NodoMD *buscarCabezaHorizontal(NodoMD *usuario);
 
-    Nodo *buscarCabezaVertical(Nodo *usuario);
+    NodoMD *buscarCabezaVertical(NodoMD *usuario);
 
-    Nodo *buscarUsuario(Usuario *usuario);
+    NodoMD *buscarUsuario(Usuario *usuario);
 
     bool estaVacia();
 
-    bool masAbajo(Nodo *cabeceraVertical, Nodo* empresa);
+    bool masAbajo(NodoMD *cabeceraVertical, NodoMD* empresa);
 
-    bool masDerecha(Nodo *cabeceraHorizontal, Nodo*departamento);
+    bool masDerecha(NodoMD *cabeceraHorizontal, NodoMD*departamento);
 
     void insertarUsuario(Usuario *usuarioNuevo);
 
-    void insertarUsuarioAlFinalHorizontal(Nodo *usuarioNuevo, Nodo *cabeceraHorizontal);
+    void insertarUsuarioAlFinalHorizontal(NodoMD *usuarioNuevo, NodoMD *cabeceraHorizontal);
 
-    void insertarUsuarioAlFinalVertical(Nodo *usuarioNuevo, Nodo *cabeceraVertical);
+    void insertarUsuarioAlFinalVertical(NodoMD *usuarioNuevo, NodoMD *cabeceraVertical);
 
-    void insertarUsuarioEnMedioHorizontal(Nodo *usuario, Nodo *arriba, Nodo *abajo);
+    void insertarUsuarioEnMedioHorizontal(NodoMD *usuario, NodoMD *arriba, NodoMD *abajo);
 
-    void insertarUsuarioEnMedioVertical(Nodo *usuario, Nodo *siguiente, Nodo *anterior);
+    void insertarUsuarioEnMedioVertical(NodoMD *usuario, NodoMD *siguiente, NodoMD *anterior);
 
-    void insertarUsuarioAtrasAdelante(Nodo *usuarioNuevo, Nodo *usuarioActual, bool insertarAtras);
+    void insertarUsuarioAtrasAdelante(NodoMD *usuarioNuevo, NodoMD *usuarioActual, bool insertarAtras);
 
-    void insertarUsuarioAlFinal(Nodo *usuarioNuevo, Nodo *cabeceraHorizontal, Nodo *cabeceraVertical);
+    void insertarUsuarioAlFinal(NodoMD *usuarioNuevo, NodoMD *cabeceraHorizontal, NodoMD *cabeceraVertical);
 };
 #endif //MATRIZDISPERSA_H

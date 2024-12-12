@@ -11,19 +11,22 @@
 class Transaccion {
 private:
     std::string id;
+    std::string tipo;
     int tiempoRenta;
     Usuario *usuario;
     Activo *activo;
-    //fecha
+    std::string fecha;
 
 public:
     Transaccion();
 
     ~Transaccion();
 
-    Transaccion(std::string id, int tiempoRenta, Usuario *usuario, Activo *activo);
+    Transaccion(std::string id, std::string tipo, int tiempoRenta, Usuario *usuario, Activo *activo, std::string fecha);
 
     std::string getId();
+
+    std::string getTipo();
 
     int getTiempoRenta();
 
@@ -31,12 +34,18 @@ public:
 
     Activo *getActivo();
 
+    std::string getFecha();
+
     void setId(std::string id);
+
+    void setTipo(std::string tipo);
 
     void setTiempoRenta(int tiempoRenta);
 
     void setUsuario(Usuario *usuario);
 
     void setActivo(Activo *activo);
+
+    void setFecha(std::string fecha);
 };
 #endif //TRANSACCION_H

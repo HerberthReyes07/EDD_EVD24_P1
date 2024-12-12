@@ -17,8 +17,9 @@ Administrador::Administrador() {
 Administrador::~Administrador() {
 };
 
-Administrador::Administrador(MatrizDispersa *matriz) {
+Administrador::Administrador(MatrizDispersa *matriz, ListaCircularDoble *listaCircularDoble) {
     this->matriz = matriz;
+    this->listaCircularDoble = listaCircularDoble;
 }
 
 MatrizDispersa *Administrador::getMatriz() {
@@ -79,7 +80,7 @@ void Administrador::menu() {
                 break;
             }
             case 5: {
-                reporteTransacciones();
+                reporteTransacciones(listaCircularDoble, "transacciones", 0);
                 break;
             }
             case 6: {
@@ -91,7 +92,37 @@ void Administrador::menu() {
                 break;
             }
             case 8: {
-                ordenarTransacciones();
+                int orden;
+                bool opcionValida = false;
+                string nombreOrden;
+
+                while (true) {
+                    cout << "$$$$$$$$$$$$   1. Ordenar Ascendentemente        $$$$$$$$$$$$" << endl;
+                    cout << "$$$$$$$$$$$$   2. Ordenar Descendentemente       $$$$$$$$$$$$" << endl;
+                    cout << "Opcion: ";
+                    cin >> orden;
+                    cin.ignore();
+                    switch (orden) {
+                        case 1: {
+                            nombreOrden = "ascendentemente";
+                            opcionValida = true;
+                            break;
+                        }
+                        case 2: {
+                            nombreOrden = "descendentemente";
+                            opcionValida = true;
+                            break;
+                        }
+                        default: {
+                            cout << "Error!. Por favor ingrese una opción válida\n" << endl;
+                            break;
+                        }
+                    }
+                    if (opcionValida) {
+                        break;
+                    }
+                }
+                ordenarTransacciones(nombreOrden, orden);
                 break;
             }
             case 9: {
@@ -147,7 +178,7 @@ void Administrador::registrarUsuario() {
 void Administrador::reporteMatrizDispersa() {
     Usuario *admin = new Usuario();
     admin->setUsersname("Administrador");
-    Nodo *nodoAdmin = new Nodo(admin);
+    NodoMD *nodoAdmin = new NodoMD(admin);
     nodoAdmin->setSiguiente(matriz->getCH());
     nodoAdmin->setAbajo(matriz->getCV());
     nodoAdmin->setIdNodo(0);
@@ -161,7 +192,7 @@ void Administrador::reporteMatrizDispersa() {
     string encuadre;
 
     while (nodoAdmin != nullptr) {
-        Nodo *auxAdmin = nodoAdmin;
+        NodoMD *auxAdmin = nodoAdmin;
         string auxEncuadre = "{ rank=same; ";
         while (auxAdmin != nullptr) {
             string nodoActual = "n" + to_string(auxAdmin->getIdNodo());
@@ -198,7 +229,6 @@ void Administrador::reporteMatrizDispersa() {
     }
     string grafico = "digraph G {\n" + config + defNodo + relNodo + encuadre + "}";
     graficar("../reporteMatrizDispersa/matriz_dispersa.svg", grafico);
-    cout << "SE HA GRAFICADO CORRECTAMENTE" << endl;
 }
 
 void Administrador::reporteActivosDisponiblesDepartamento() {
@@ -207,7 +237,54 @@ void Administrador::reporteActivosDisponiblesDepartamento() {
 void Administrador::reporteActivosDisponiblesEmpresa() {
 }
 
-void Administrador::reporteTransacciones() {
+void Administrador::reporteTransacciones(ListaCircularDoble *lcde, std::string nombre, int orden) {
+
+    string auxNombre;
+    if(orden == 1) {
+        auxNombre = "Ordenadas Ascendentemente";
+    } else if (orden == 2) {
+        auxNombre = "Ordenadas Descendentemente";
+    }
+
+    string config =
+            "bgcolor=\"#F5F5F5\";fontcolor=black;\nlabel=\"Historial de Transacciones " + auxNombre +
+            "\";\nlabelloc=\"t\";\nnodesep=0.5;\nnode [fontsize = 7 shape=box style=filled fillcolor=\"#004488\" fontcolor=\"#F5F5F5\" color=transparent];\nedge [fontcolor=white color=\"#ff5722\"];\n";
+
+    string defNodo;
+    string relNodo;
+    string encuadre = "{ rank=same; ";
+
+    NodoLCDE *aux = lcde->getCabeza();
+
+    int id = 1;
+    while (true) {
+        string nodoActual = "n" + to_string(id);
+        defNodo += nodoActual + "[label=\"id = " + aux->getTransaccion()->getId() + "\\nTipo = " + aux->getTransaccion()
+                ->getTipo()
+                + "\\nUsuario = " + aux->getTransaccion()->getUsuario()->getUsername() + "\\nActivo = " + aux->
+                getTransaccion()->getActivo()->getNombre()
+                + "\\nTiempo renta = " + to_string(aux->getTransaccion()->getTiempoRenta()) + "\"];\n";
+
+        if (aux->getSiguiente() != nullptr && aux != lcde->getCola()) {
+            relNodo += nodoActual + "->n" + to_string((id + 1)) + ";\n";
+        }
+        if (aux->getAnterior() != nullptr && aux != lcde->getCabeza()) {
+            relNodo += nodoActual + "->n" + to_string((id - 1)) + ";\n";
+        }
+        encuadre += nodoActual + "; ";
+        id++;
+        aux = aux->getSiguiente();
+        if (aux == lcde->getCabeza()) {
+            break;
+        }
+    }
+    relNodo += "n" + to_string(id - 1) + "->n1[tailport=n headport=n];\n";
+    relNodo += "n1->n" + to_string(id - 1) + "[tailport=s headport=s];\n";
+    encuadre += "}\n";
+
+    string grafico = "digraph G {\n" + config + defNodo + relNodo + encuadre + "}";
+    //cout << grafico;
+    graficar("../reporteTransacciones/" + nombre + ".svg", grafico);
 }
 
 void Administrador::reporteActivosUsuario() {
@@ -216,7 +293,39 @@ void Administrador::reporteActivosUsuario() {
 void Administrador::activosRentadosUsuario() {
 }
 
-void Administrador::ordenarTransacciones() {
+void Administrador::ordenarTransacciones(std::string nombreOrden, int orden) {
+    ListaCircularDoble *lcde = new ListaCircularDoble();
+    lcde->agregarTransaccion(listaCircularDoble->getCabeza()->getTransaccion());
+    NodoLCDE *aux = listaCircularDoble->getCabeza()->getSiguiente();
+
+    while (true) {
+        if (aux == listaCircularDoble->getCabeza()) {
+            break;
+        }
+        lcde->agregarTransaccion(aux->getTransaccion());
+        aux = aux->getSiguiente();
+    }
+
+    bool cambiado;
+    do {
+        cambiado = false;
+        NodoLCDE *actual = lcde->getCabeza();
+        do {
+            NodoLCDE *siguiente = actual->getSiguiente();
+            // < descendentemente // > ascendentemente
+            if ((actual->getTransaccion()->getId().compare(siguiente->getTransaccion()->getId()) > 0 && orden == 1)
+                || (actual->getTransaccion()->getId().compare(siguiente->getTransaccion()->getId()) < 0 && orden ==
+                    2)) {
+                // Intercambio de datos (solo datos, no nodos completos)
+                Transaccion *auxTrans = actual->getTransaccion();
+                actual->setTransaccion(siguiente->getTransaccion());
+                siguiente->setTransaccion(auxTrans);
+                cambiado = true;
+            }
+            actual = siguiente;
+        } while (actual->getSiguiente() != lcde->getCabeza()); // Recorrer toda la lista circular
+    } while (cambiado);
+    reporteTransacciones(lcde, "transacciones_ordenadas_" + nombreOrden, orden);
 }
 
 bool Administrador::insertarAtras(string username) {
@@ -268,7 +377,6 @@ void Administrador::graficar(std::string path, std::string grafico) {
 
     try {
         // Ejecuta el comando para generar el gráfico
-
         string command = "dot -Tsvg -o " + path + " aux_grafico.dot";
         int result = system(command.c_str());
 
@@ -277,6 +385,7 @@ void Administrador::graficar(std::string path, std::string grafico) {
         }
         // Espera 500ms para dar tiempo a que el archivo de imagen se genere
         this_thread::sleep_for(chrono::milliseconds(500));
+        cout << "Se ha graficado correctamente!\n" << endl;
     } catch (const exception &e) {
         cerr << "Error al generar la imagen para el archivo aux_grafico.dot: " << e.what() << endl;
     }

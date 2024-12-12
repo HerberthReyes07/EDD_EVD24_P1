@@ -1,13 +1,13 @@
 //
 // Created by herberthreyes on 8/12/24.
 //
-#include "../../includes/matrizDispersa/Nodo.h"
+#include "../../includes/matrizDispersa/NodoMD.h"
 
-Nodo::Nodo(){};
+NodoMD::NodoMD(){};
 
-Nodo::~Nodo(){};
+NodoMD::~NodoMD(){};
 
-Nodo::Nodo(Usuario *usuario) {
+NodoMD::NodoMD(Usuario *usuario) {
     this->usuario = usuario;
     this->siguiente = nullptr;
     this->anterior = nullptr;
@@ -17,71 +17,71 @@ Nodo::Nodo(Usuario *usuario) {
     this->atras = nullptr;
 }
 
-Usuario *Nodo::getUsuario() {
+Usuario *NodoMD::getUsuario() {
     return this->usuario;
 }
 
-Nodo *Nodo::getSiguiente() {
+NodoMD *NodoMD::getSiguiente() {
     return this->siguiente;
 }
 
-Nodo *Nodo::getAnterior() {
+NodoMD *NodoMD::getAnterior() {
     return this->anterior;
 }
 
-Nodo *Nodo::getArriba() {
+NodoMD *NodoMD::getArriba() {
     return this->arriba;
 }
 
-Nodo *Nodo::getAbajo() {
+NodoMD *NodoMD::getAbajo() {
     return this->abajo;
 }
 
-Nodo *Nodo::getAdelante() {
+NodoMD *NodoMD::getAdelante() {
     return this->adelante;
 }
 
-Nodo *Nodo::getAtras() {
+NodoMD *NodoMD::getAtras() {
     return this->atras;
 }
 
-int Nodo::getIdNodo() {
+int NodoMD::getIdNodo() {
     return this->idNodo;
 }
 
-int Nodo::getGrupoVertical() {
+int NodoMD::getGrupoVertical() {
     return this->grupoVertical;
 }
 
-void Nodo::setSiguiente(Nodo *siguiente) {
+void NodoMD::setSiguiente(NodoMD *siguiente) {
     this->siguiente = siguiente;
 }
 
-void Nodo::setAnterior(Nodo *anterior) {
+void NodoMD::setAnterior(NodoMD *anterior) {
     this->anterior = anterior;
 }
 
-void Nodo::setArriba(Nodo *arriba) {
+void NodoMD::setArriba(NodoMD *arriba) {
     this->arriba = arriba;
 }
 
-void Nodo::setAbajo(Nodo *abajo) {
+void NodoMD::setAbajo(NodoMD *abajo) {
     this->abajo = abajo;
 }
 
-void Nodo::setAdelante(Nodo *adelante) {
+void NodoMD::setAdelante(NodoMD *adelante) {
     this->adelante = adelante;
 }
 
-void Nodo::setAtras(Nodo *atras) {
+void NodoMD::setAtras(NodoMD *atras) {
     this->atras = atras;
 }
 
-void Nodo::setIdNodo(int idNodo) {
+void NodoMD::setIdNodo(int idNodo) {
     this->idNodo = idNodo;
 }
 
-void Nodo::setGrupoVertical(int grupoVertical) {
+void NodoMD::setGrupoVertical(int grupoVertical) {
     this->grupoVertical = grupoVertical;
 }
 

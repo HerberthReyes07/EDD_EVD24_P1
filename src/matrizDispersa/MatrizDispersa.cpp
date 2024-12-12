@@ -23,20 +23,20 @@ void MatrizDispersa::setCont(int cont) {
     this->cont = cont;
 }
 
-Nodo *MatrizDispersa::getCH() {
+NodoMD *MatrizDispersa::getCH() {
     return this->cabezaHorizontal;
 }
 
-Nodo *MatrizDispersa::getCV() {
+NodoMD *MatrizDispersa::getCV() {
     return this->cabezaVertical;
 }
 
-Nodo *MatrizDispersa::getCabezaHorizontal(std::string departamento) {
+NodoMD *MatrizDispersa::getCabezaHorizontal(std::string departamento) {
     if (estaVacia()) {
         return nullptr;
     }
 
-    Nodo *aux = this->cabezaHorizontal;
+    NodoMD *aux = this->cabezaHorizontal;
     while (aux != nullptr) {
         if (aux->getUsuario()->getDepartamento() == departamento) {
             return aux;
@@ -46,12 +46,12 @@ Nodo *MatrizDispersa::getCabezaHorizontal(std::string departamento) {
     return nullptr;
 }
 
-Nodo *MatrizDispersa::getCabezaVertical(std::string empresa) {
+NodoMD *MatrizDispersa::getCabezaVertical(std::string empresa) {
     if (estaVacia()) {
         return nullptr;
     }
 
-    Nodo *aux = this->cabezaVertical;
+    NodoMD *aux = this->cabezaVertical;
     while (aux != nullptr) {
         if (aux->getUsuario()->getEmpresa() == empresa) {
             return aux;
@@ -61,10 +61,10 @@ Nodo *MatrizDispersa::getCabezaVertical(std::string empresa) {
     return nullptr;
 }
 
-Nodo *MatrizDispersa::setCabezaHorizontal(std::string departamento) {
+NodoMD *MatrizDispersa::setCabezaHorizontal(std::string departamento) {
     Usuario *cabecera = new Usuario();
     cabecera->setDepartamento(departamento);
-    Nodo *nuevaCabezaHorizontal = new Nodo(cabecera);
+    NodoMD *nuevaCabezaHorizontal = new NodoMD(cabecera);
     cont ++;
     nuevaCabezaHorizontal->setIdNodo(cont);
 
@@ -76,7 +76,7 @@ Nodo *MatrizDispersa::setCabezaHorizontal(std::string departamento) {
         return nuevaCabezaHorizontal;
     }
 
-    Nodo *aux = this->cabezaHorizontal;
+    NodoMD *aux = this->cabezaHorizontal;
     while (aux->getSiguiente() != nullptr) {
         aux = aux->getSiguiente();
     }
@@ -87,10 +87,10 @@ Nodo *MatrizDispersa::setCabezaHorizontal(std::string departamento) {
     return nuevaCabezaHorizontal;
 }
 
-Nodo *MatrizDispersa::setCabezaVertical(std::string empresa) {
+NodoMD *MatrizDispersa::setCabezaVertical(std::string empresa) {
     Usuario *cabecera = new Usuario();
     cabecera->setEmpresa(empresa);
-    Nodo *nuevaCabezaVertical = new Nodo(cabecera);
+    NodoMD *nuevaCabezaVertical = new NodoMD(cabecera);
     cont++;
     nuevaCabezaVertical->setIdNodo(cont);
     nuevaCabezaVertical->setGrupoVertical(1);
@@ -102,7 +102,7 @@ Nodo *MatrizDispersa::setCabezaVertical(std::string empresa) {
         return nuevaCabezaVertical;
     }
 
-    Nodo *aux = this->cabezaVertical;
+    NodoMD *aux = this->cabezaVertical;
     while (aux->getAbajo() != nullptr) {
         aux = aux->getAbajo();
     }
@@ -112,33 +112,33 @@ Nodo *MatrizDispersa::setCabezaVertical(std::string empresa) {
     return nuevaCabezaVertical;
 }
 
-Nodo *MatrizDispersa::buscarCabezaHorizontal(Nodo *usuario) {
-    Nodo *aux = usuario;
+NodoMD *MatrizDispersa::buscarCabezaHorizontal(NodoMD *usuario) {
+    NodoMD *aux = usuario;
     while (aux->getArriba() != nullptr) {
         aux = aux->getArriba();
     }
     return aux;
 }
 
-Nodo *MatrizDispersa::buscarCabezaVertical(Nodo *usuario) {
-    Nodo *aux = usuario;
+NodoMD *MatrizDispersa::buscarCabezaVertical(NodoMD *usuario) {
+    NodoMD *aux = usuario;
     while (aux->getAnterior() != nullptr) {
         aux = aux->getAnterior();
     }
     return aux;
 }
 
-Nodo *MatrizDispersa::buscarUsuario(Usuario *usuario) {
+NodoMD *MatrizDispersa::buscarUsuario(Usuario *usuario) {
 
-    Nodo *cabeceraVertical = getCabezaVertical(usuario->getEmpresa());
+    NodoMD *cabeceraVertical = getCabezaVertical(usuario->getEmpresa());
 
     if(cabeceraVertical != nullptr) {
-        Nodo *auxUsuario = cabeceraVertical->getSiguiente();
+        NodoMD *auxUsuario = cabeceraVertical->getSiguiente();
         while (auxUsuario != nullptr) {
-            Nodo *cabeceraHorizontal = buscarCabezaHorizontal(auxUsuario);
+            NodoMD *cabeceraHorizontal = buscarCabezaHorizontal(auxUsuario);
             if (cabeceraHorizontal->getUsuario()->getDepartamento() == usuario->getDepartamento()) {
                 //para atras si no es el mismo usuario
-                Nodo *auxUsuarioAtras = auxUsuario;
+                NodoMD *auxUsuarioAtras = auxUsuario;
                 while (auxUsuarioAtras != nullptr) {
                     if(auxUsuarioAtras->getUsuario()->getUsername() == usuario->getUsername()) {
                         return auxUsuario;
@@ -160,8 +160,8 @@ bool MatrizDispersa::estaVacia() {
     return this->cabezaHorizontal == nullptr && this->cabezaVertical == nullptr;
 }
 
-bool MatrizDispersa::masAbajo(Nodo *cabeceraVertical, Nodo *empresa) {
-    Nodo *auxCabezaVertical = cabeceraVertical;
+bool MatrizDispersa::masAbajo(NodoMD *cabeceraVertical, NodoMD *empresa) {
+    NodoMD *auxCabezaVertical = cabeceraVertical;
     while (auxCabezaVertical != nullptr) {
         if (auxCabezaVertical == empresa) {
             return true;
@@ -171,8 +171,8 @@ bool MatrizDispersa::masAbajo(Nodo *cabeceraVertical, Nodo *empresa) {
     return false;
 }
 
-bool MatrizDispersa::masDerecha(Nodo *cabeceraHorizontal, Nodo *departamento) {
-    Nodo *auxCabezaHorizontal = cabeceraHorizontal;
+bool MatrizDispersa::masDerecha(NodoMD *cabeceraHorizontal, NodoMD *departamento) {
+    NodoMD *auxCabezaHorizontal = cabeceraHorizontal;
     while (auxCabezaHorizontal != nullptr) {
         if (auxCabezaHorizontal == departamento) {
             return true;
@@ -183,9 +183,9 @@ bool MatrizDispersa::masDerecha(Nodo *cabeceraHorizontal, Nodo *departamento) {
 }
 
 void MatrizDispersa::insertarUsuario(Usuario *usuario) {
-    Nodo *departamento = nullptr;
-    Nodo *empresa = nullptr;
-    Nodo *usuarioNuevo = new Nodo(usuario);
+    NodoMD *departamento = nullptr;
+    NodoMD *empresa = nullptr;
+    NodoMD *usuarioNuevo = new NodoMD(usuario);
     cont++;
     usuarioNuevo->setIdNodo(cont);
 
@@ -222,9 +222,9 @@ void MatrizDispersa::insertarUsuario(Usuario *usuario) {
     //las cabeceras ya existen
     usuarioNuevo->setGrupoVertical(departamento->getGrupoVertical());
 
-    Nodo *auxUsuario = empresa->getSiguiente();
+    NodoMD *auxUsuario = empresa->getSiguiente();
     while (auxUsuario != nullptr) {
-        Nodo *cabeceraHorizontal = buscarCabezaHorizontal(auxUsuario);
+        NodoMD *cabeceraHorizontal = buscarCabezaHorizontal(auxUsuario);
         if (cabeceraHorizontal == departamento) {
             Administrador *administrador = new Administrador();
             insertarUsuarioAtrasAdelante(usuarioNuevo, auxUsuario, administrador->insertarAtras(auxUsuario->getUsuario()->getUsername()));
@@ -236,8 +236,8 @@ void MatrizDispersa::insertarUsuario(Usuario *usuario) {
         auxUsuario = auxUsuario->getSiguiente();
     }
 
-    Nodo *auxUsuarioDepartamento = departamento->getAbajo();
-    Nodo *usuarioCabeceraVertical;
+    NodoMD *auxUsuarioDepartamento = departamento->getAbajo();
+    NodoMD *usuarioCabeceraVertical;
     bool abajo = false;
 
     while (auxUsuarioDepartamento != nullptr) {
@@ -254,8 +254,8 @@ void MatrizDispersa::insertarUsuario(Usuario *usuario) {
         insertarUsuarioEnMedioHorizontal(usuarioNuevo, auxUsuarioDepartamento->getArriba(), auxUsuarioDepartamento);
     }
 
-    Nodo *auxUsuarioEmpresa = empresa->getSiguiente();
-    Nodo *usuarioCabeceraHorizontal;
+    NodoMD *auxUsuarioEmpresa = empresa->getSiguiente();
+    NodoMD *usuarioCabeceraHorizontal;
     bool derecha = false;
 
     while (auxUsuarioEmpresa != nullptr) {
@@ -274,7 +274,7 @@ void MatrizDispersa::insertarUsuario(Usuario *usuario) {
 
 }
 
-void MatrizDispersa::insertarUsuarioAtrasAdelante(Nodo *usuarioNuevo, Nodo *usuarioActual, bool insertarAtras) {
+void MatrizDispersa::insertarUsuarioAtrasAdelante(NodoMD *usuarioNuevo, NodoMD *usuarioActual, bool insertarAtras) {
     if (insertarAtras) {
         usuarioActual->setAtras(usuarioNuevo);
         usuarioNuevo->setAdelante(usuarioActual);
@@ -314,14 +314,14 @@ void MatrizDispersa::insertarUsuarioAtrasAdelante(Nodo *usuarioNuevo, Nodo *usua
     usuarioActual->setAbajo(nullptr);
 }
 
-void MatrizDispersa::insertarUsuarioEnMedioHorizontal(Nodo *usuario, Nodo *arriba, Nodo *abajo) {
+void MatrizDispersa::insertarUsuarioEnMedioHorizontal(NodoMD *usuario, NodoMD *arriba, NodoMD *abajo) {
     usuario->setArriba(arriba);
     usuario->setAbajo(abajo);
     abajo->setArriba(usuario);
     arriba->setAbajo(usuario);
 }
 
-void MatrizDispersa::insertarUsuarioEnMedioVertical(Nodo *usuario, Nodo *siguiente, Nodo *anterior) {
+void MatrizDispersa::insertarUsuarioEnMedioVertical(NodoMD *usuario, NodoMD *siguiente, NodoMD *anterior) {
     usuario->setSiguiente(siguiente);
     siguiente->setAnterior(usuario);
     anterior->setSiguiente(usuario);
@@ -329,7 +329,7 @@ void MatrizDispersa::insertarUsuarioEnMedioVertical(Nodo *usuario, Nodo *siguien
 }
 
 
-void MatrizDispersa::insertarUsuarioAlFinal(Nodo *usuarioNuevo, Nodo *cabeceraHorizontal, Nodo *cabeceraVertical) {
+void MatrizDispersa::insertarUsuarioAlFinal(NodoMD *usuarioNuevo, NodoMD *cabeceraHorizontal, NodoMD *cabeceraVertical) {
     /*cont++;
     usuarioNuevo->setIdNodo(cont);*/
     usuarioNuevo->setGrupoVertical(cabeceraHorizontal->getGrupoVertical());
@@ -337,9 +337,9 @@ void MatrizDispersa::insertarUsuarioAlFinal(Nodo *usuarioNuevo, Nodo *cabeceraHo
     insertarUsuarioAlFinalVertical(usuarioNuevo, cabeceraVertical);
 }
 
-void MatrizDispersa::insertarUsuarioAlFinalHorizontal(Nodo *usuarioNuevo, Nodo *cabeceraHorizontal) {
+void MatrizDispersa::insertarUsuarioAlFinalHorizontal(NodoMD *usuarioNuevo, NodoMD *cabeceraHorizontal) {
 
-    Nodo *auxHorizontal = cabeceraHorizontal;
+    NodoMD *auxHorizontal = cabeceraHorizontal;
 
     while (auxHorizontal->getAbajo() != nullptr) {
         auxHorizontal = auxHorizontal->getAbajo();
@@ -349,8 +349,8 @@ void MatrizDispersa::insertarUsuarioAlFinalHorizontal(Nodo *usuarioNuevo, Nodo *
     usuarioNuevo->setArriba(auxHorizontal);
 }
 
-void MatrizDispersa::insertarUsuarioAlFinalVertical(Nodo *usuarioNuevo, Nodo *cabeceraVertical) {
-    Nodo *auxVertical = cabeceraVertical;
+void MatrizDispersa::insertarUsuarioAlFinalVertical(NodoMD *usuarioNuevo, NodoMD *cabeceraVertical) {
+    NodoMD *auxVertical = cabeceraVertical;
 
     while (auxVertical->getSiguiente() != nullptr) {
         auxVertical = auxVertical->getSiguiente();

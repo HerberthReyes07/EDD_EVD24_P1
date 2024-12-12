@@ -14,8 +14,12 @@ add_executable(Proyecto1 main.cpp
         includes/Transaccion.h
         src/Activo.cpp
         src/Transaccion.cpp
-        includes/matrizDispersa/Nodo.h
+        includes/matrizDispersa/NodoMD.h
         includes/matrizDispersa/MatrizDispersa.h
-        src/matrizDispersa/Nodo.cpp
+        src/matrizDispersa/NodoMD.cpp
         src/matrizDispersa/MatrizDispersa.cpp
+        includes/listaCircularDoblementeEnlazada/NodoLCDE.h
+        includes/listaCircularDoblementeEnlazada/ListaCircularDoble.h
+        src/listaCircularDoblementeEnlazada/NodoLCDE.cpp
+        src/listaCircularDoblementeEnlazada/ListaCircularDoble.cpp
 )
