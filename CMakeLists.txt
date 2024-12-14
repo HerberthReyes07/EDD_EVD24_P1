@@ -22,4 +22,8 @@ add_executable(Proyecto1 main.cpp
         includes/listaCircularDoblementeEnlazada/ListaCircularDoble.h
         src/listaCircularDoblementeEnlazada/NodoLCDE.cpp
         src/listaCircularDoblementeEnlazada/ListaCircularDoble.cpp
+        includes/arbolAVL/NodoAVL.h
+        includes/arbolAVL/ArbolAVL.h
+        src/arbolAVL/NodoAVL.cpp
+        src/arbolAVL/ArbolAVL.cpp
 )
