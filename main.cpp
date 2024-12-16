@@ -15,7 +15,7 @@ int main() {
     ListaCircularDoble *listaCircularDoble = new ListaCircularDoble();
 
     /*ArbolAVL *arbolAVL = new ArbolAVL();
-    Activo *activo10 = new Activo("K", "A10", "A10`", 10, false);
+    Activo *activo10 = new Activo("K", "A10", "A10", 10, false);
     Activo *activo5 = new Activo("F", "A5", "A5", 5, false);
     Activo *activo4 = new Activo("E", "A4", "A4", 4, true);
     Activo *activo1 = new Activo("B", "A1", "A1", 1, false);
@@ -100,9 +100,9 @@ int main() {
     Cliente *auxCliente = new Cliente();
 
     Usuario *usuario1 = new Usuario("U1", "U1", "U1", "Xela", "Max");
-    Activo *activo1 = new Activo(auxCliente->generarAlfanumerico(), "A1", "A1", 1, false);
-    Activo *activo2 = new Activo(auxCliente->generarAlfanumerico(), "A2", "A2", 2, false);
-    Activo *activo3 = new Activo(auxCliente->generarAlfanumerico(), "A3", "A3", 3, false);
+    Activo *activo1 = new Activo(auxCliente->generarAlfanumerico(), "A11", "A11", 11, false);
+    Activo *activo2 = new Activo(auxCliente->generarAlfanumerico(), "A21", "A21", 21, false);
+    Activo *activo3 = new Activo(auxCliente->generarAlfanumerico(), "A31", "A31", 31, false);
     ArbolAVL *arbolAVL = new ArbolAVL();
 
     arbolAVL->insertar(activo1);
@@ -113,8 +113,8 @@ int main() {
 
     Usuario *usuario2 = new Usuario("U2", "U2", "U2", "Guatemala", "Cemaco");
     Activo *activo12 = new Activo(auxCliente->generarAlfanumerico(), "A12", "A12", 12, false);
-    Activo *activo14 = new Activo(auxCliente->generarAlfanumerico(), "A14", "A14", 14, false);
-    Activo *activo11 = new Activo(auxCliente->generarAlfanumerico(), "A11", "A11", 11, true);
+    Activo *activo14 = new Activo(auxCliente->generarAlfanumerico(), "A22", "A22", 22, false);
+    Activo *activo11 = new Activo(auxCliente->generarAlfanumerico(), "A32", "A32", 32, false);
     ArbolAVL *arbolAVL2 = new ArbolAVL();
 
     arbolAVL2->insertar(activo12);
@@ -124,9 +124,9 @@ int main() {
     matriz->insertarUsuario(usuario2);
 
     Usuario *usuario3 = new Usuario("U3", "U3", "U3", "Guatemala", "Max");
-    Activo *activo10 = new Activo(auxCliente->generarAlfanumerico(), "A10", "A10`", 10, false);
-    Activo *activo5 = new Activo(auxCliente->generarAlfanumerico(), "A5", "A5", 5, false);
-    Activo *activo4 = new Activo(auxCliente->generarAlfanumerico(), "A4", "A4", 4, true);
+    Activo *activo10 = new Activo(auxCliente->generarAlfanumerico(), "A13", "A13", 13, false);
+    Activo *activo5 = new Activo(auxCliente->generarAlfanumerico(), "A23", "A23", 23, false);
+    Activo *activo4 = new Activo(auxCliente->generarAlfanumerico(), "A33", "A33", 33, false);
     ArbolAVL *arbolAVL3 = new ArbolAVL();
 
     arbolAVL3->insertar(activo10);
@@ -135,16 +135,16 @@ int main() {
     usuario3->setActivos(arbolAVL3);
     matriz->insertarUsuario(usuario3);
 
-    Administrador *administrador = new Administrador(matriz, listaCircularDoble);
+    //Administrador *administrador = new Administrador(matriz, listaCircularDoble);
     //administrador->reporteActivosDisponiblesDepartamento();
     //administrador->reporteActivosDisponiblesEmpresa();
-    administrador->reporteActivosUsuario();
+    //administrador->reporteActivosUsuario();
 
     //usuario2->setActivos(new ArbolAVL());
     //matriz->insertarUsuario(usuario2);
 
-    /*while (true) {
-        cout << "$$$$$$$$$$$$$$$$$$$$  Renta de Activos  $$$$$$$$$$$$$$$$$$$$" << endl;
+    while (true) {
+        cout << "\n$$$$$$$$$$$$$$$$$$$$  Renta de Activos  $$$$$$$$$$$$$$$$$$$$\n" << endl;
         cout << "$$$$$$$$$$$$$$$$$$$$ 1. Iniciar sesión  $$$$$$$$$$$$$$$$$$$$" << endl;
         cout << "$$$$$$$$$$$$$$$$$$$$ 2. Cerrar programa $$$$$$$$$$$$$$$$$$$$\n" << endl;
 
@@ -209,6 +209,6 @@ int main() {
                 break;
             }
         }
-    }*/
+    }
 
 }

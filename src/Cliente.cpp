@@ -193,7 +193,7 @@ void Cliente::rentarActivo() {
         verCatalogo();
 
         cout << "\n$$$$$$$$$$$$$$$$$$$$   1. Rentar Activo        $$$$$$$$$$$$$$$$$$$$" << endl;
-        cout << "$$$$$$$$$$$$$$$$$$$$   2. Regresar al menú     $$$$$$$$$$$$$$$$$$$$" << endl;
+        cout << "$$$$$$$$$$$$$$$$$$$$   2. Regresar al menú     $$$$$$$$$$$$$$$$$$$$\n" << endl;
 
         int opcion;
         cout << "Ingresar opción: ";
@@ -412,11 +412,11 @@ void Cliente::verCatalogoActivosRentados() {
 
 void Cliente::misActivosRentados() {
     bool regresarMenu = false;
-    cout << "$$$$$$$$$$$$$$$$$$$$     Mis Activos rentados     $$$$$$$$$$$$$$$$$$$$\n" << endl;
+    cout << "\n$$$$$$$$$$$$$$$$$$$$     Mis Activos rentados     $$$$$$$$$$$$$$$$$$$$\n" << endl;
     /*
      * Lista de activos rentados
      */
-    //usuario->getUsuario()->getActivos()->recorrerMisActivosRentados(listaCircularDoble);
+    recorrerMisActivosRentados();
     while (true) {
         int opcion;
         cout << "Ingresar 1 para regresar al menú: ";
@@ -439,34 +439,31 @@ void Cliente::misActivosRentados() {
 }
 
 void Cliente::recorrerMisActivosRentados() {
-    //recorrerMisActivosRentados(usuario->getUsuario()->getActivos()->getRaiz());
+    recorrerMisActivosRentados(usuario->getUsuario()->getActivos()->getRaiz());
 }
 
 void Cliente::recorrerMisActivosRentados(NodoAVL *&raiz) {
-
-}
-
-
-
-/*void Cliente::recorrerMisActivosRentados(NodoAVL *&raiz) {
     if (raiz == nullptr) {
         return;
     }
     if (raiz->getActivo()->getEstaRentado() == true) {
-        NodoLCDE *transaccion = transacciones->getCola();
+        NodoLCDE *transaccion = listaCircularDoble->getCola();
         while (true) {
             if (transaccion->getTransaccion()->getActivo() == raiz->getActivo()) {
-                cout << "ID = " << raiz->getActivo()->getId() << " ; Nombre = " << raiz->getActivo()->getNombre()
-                        << " ; Descripcion = " << raiz->getActivo()->getDescripcion()
-                        << " ; Tiempo rentado = " << transaccion->getTransaccion()->getTiempoRenta() << endl;
+                cout << "ID = " << raiz->getActivo()->getId() << "; Nombre = " << raiz->getActivo()->getNombre()
+                        << "; Descripcion = " << raiz->getActivo()->getDescripcion()
+                        << "; Tiempo rentado = " << transaccion->getTransaccion()->getTiempoRenta() << endl;
                 break;
             }
             transaccion = transaccion->getAnterior();
+            if (transaccion == nullptr) {
+                return;
+            }
         }
     }
-    recorrer(raiz->getIzquierda());
-    recorrer(raiz->getDerecha());
-}*/
+    recorrerMisActivosRentados(raiz->getIzquierda());
+    recorrerMisActivosRentados(raiz->getDerecha());
+}
 
 std::string Cliente::generarAlfanumerico() {
     string id = "";

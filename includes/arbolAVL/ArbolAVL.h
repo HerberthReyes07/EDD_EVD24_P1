@@ -24,8 +24,6 @@ private:
 
     void generarGrafico(NodoAVL * &raiz, std::string &grafico);
 
-    //void recorrerMisActivosRentados(NodoAVL *&raiz, ListaCircularDoble *transacciones);
-
     int alturaMaxNodo(NodoAVL *nodo);
 
     int factorEquilibrio(NodoAVL *nodo);
@@ -47,7 +45,7 @@ public:
 
     ~ArbolAVL();
 
-    NodoAVL *getRaiz();
+    NodoAVL *&getRaiz();
 
     void setRaiz(NodoAVL *raiz);
 
@@ -60,8 +58,6 @@ public:
     Activo *buscar(std::string idActivo);
 
     void recorrer();
-
-    //void recorrerMisActivosRentados(ListaCircularDoble *transacciones);
 
     std::string generarGrafico();
 };

@@ -133,7 +133,7 @@ NodoMD *MatrizDispersa::buscarUsuario(Usuario *usuario) {
     NodoMD *cabeceraVertical = getCabezaVertical(usuario->getEmpresa());
     NodoMD *auxCabeceraHorizontal = getCabezaHorizontal(usuario->getDepartamento());
 
-    if(cabeceraVertical != nullptr) {
+    if(cabeceraVertical != nullptr && auxCabeceraHorizontal != nullptr) {
         NodoMD *auxUsuario = cabeceraVertical->getSiguiente();
         while (auxUsuario != nullptr) {
             NodoMD *cabeceraHorizontal = buscarCabezaHorizontal(auxUsuario);
@@ -148,9 +148,9 @@ NodoMD *MatrizDispersa::buscarUsuario(Usuario *usuario) {
                 }
                 return nullptr;
             }
-            if (!masDerecha(cabeceraHorizontal, auxCabeceraHorizontal)) {
+            /*if (!masDerecha(cabeceraHorizontal, auxCabeceraHorizontal)) {
                 return nullptr;
-            }
+            }*/
             auxUsuario = auxUsuario->getSiguiente();
         }
     }

@@ -13,7 +13,7 @@ ArbolAVL::ArbolAVL() {
 ArbolAVL::~ArbolAVL() {
 }
 
-NodoAVL *ArbolAVL::getRaiz() {
+NodoAVL *&ArbolAVL::getRaiz() {
     return raiz;
 }
 
