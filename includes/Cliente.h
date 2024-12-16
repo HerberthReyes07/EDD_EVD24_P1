@@ -18,7 +18,7 @@ private:
 
     void verCatalogo();
 
-    void verCatalogoActivosRentados();
+    bool verCatalogoActivosRentados();
 
     Activo *buscarActivo(std::string id);
 

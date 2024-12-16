@@ -5,14 +5,20 @@ labelloc="t";
 nodesep=0.5;
 node [fontsize = 5 shape=box style=filled fillcolor="#004488" fontcolor="#F5F5F5" color=transparent];
 edge [fontcolor=white color="#ff5722"];
-n1[label="id = 87m11g75788f6sc\nTipo = Renta\nUsuario = U1\nActivo = A33\nTiempo renta = 3"];
-n2[label="id = mjf6r66m1989a6i\nTipo = Renta\nUsuario = U1\nActivo = A23\nTiempo renta = 2"];
-n3[label="id = b12ebn604b7rir9\nTipo = Renta\nUsuario = U1\nActivo = A13\nTiempo renta = 1"];
+n1[label="id = s9gdsb52we12w6f\nTipo = Renta\nUsuario = U5\nActivo = A32\nTiempo renta = 3\nFecha = 16/12/2024"];
+n2[label="id = j6ielcs52c1hx11\nTipo = Renta\nUsuario = U1\nActivo = A14\nTiempo renta = 5\nFecha = 16/12/2024"];
+n3[label="id = frod45a6617mv0d\nTipo = Renta\nUsuario = U4\nActivo = A11\nTiempo renta = 1\nFecha = 16/12/2024"];
+n4[label="id = j6ielcs52c1hx11\nTipo = Devolucion\nUsuario = U5\nActivo = A14\nTiempo renta = 14\nFecha = 16/12/2024"];
+n5[label="id = j6ielcs52c1hx11\nTipo = Renta\nUsuario = U5\nActivo = A14\nTiempo renta = 4\nFecha = 16/12/2024"];
 n1->n2;
 n2->n3;
 n2->n1;
+n3->n4;
 n3->n2;
-n3->n1[tailport=n headport=n];
-n1->n3[tailport=s headport=s];
-{ rank=same; n1; n2; n3; }
+n4->n5;
+n4->n3;
+n5->n4;
+n5->n1[tailport=n headport=n];
+n1->n5[tailport=s headport=s];
+{ rank=same; n1; n2; n3; n4; n5; }
 }

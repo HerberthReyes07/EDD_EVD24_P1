@@ -91,7 +91,8 @@ void Administrador::menu() {
                 break;
             }
             case 5: {
-                reporteTransacciones(listaCircularDoble, "Historial de transacciones", "../reporteTransacciones/transacciones.svg");
+                reporteTransacciones(listaCircularDoble, "Historial de transacciones",
+                                     "../reporteTransacciones/transacciones.svg");
                 break;
             }
             case 6: {
@@ -256,7 +257,8 @@ void Administrador::reporteMatrizDispersa() {
 }
 
 void Administrador::reporteActivosDisponiblesDepartamento() {
-    cout << "\n$$$$$$$$$$$$$$$$$$$$      Reporte Activos Disponibles de un Departamento    $$$$$$$$$$$$$$$$$$$$" << endl;
+    cout << "\n$$$$$$$$$$$$$$$$$$$$      Reporte Activos Disponibles de un Departamento    $$$$$$$$$$$$$$$$$$$$" <<
+            endl;
     cout << "$$$$$$$$$$$$$$$$$$$$      Departamentos        $$$$$$$$$$$$$$$$$$$$\n" << endl;
 
     NodoMD *aux = matriz->getCH();
@@ -277,7 +279,8 @@ void Administrador::reporteActivosDisponiblesDepartamento() {
     }
 
     NodoMD *usuario = nodoDepartamento->getAbajo();
-    string grafico = "digraph G {\n fontcolor=black;\nlabel=\"Activos disponibles " + departamento +" \";\nlabelloc=\"t\";\n";
+    string grafico = "digraph G {\n fontcolor=black;\nlabel=\"Activos disponibles " + departamento +
+                     " \";\nlabelloc=\"t\";\n";
     while (usuario != nullptr) {
         NodoMD *usuarioAtras = usuario;
         while (usuarioAtras != nullptr) {
@@ -296,7 +299,8 @@ void Administrador::reporteActivosDisponiblesDepartamento() {
 }
 
 void Administrador::reporteActivosDisponiblesEmpresa() {
-    cout << "\n$$$$$$$$$$$$$$$$$$$$      Reporte Activos Disponibles de una Empresa        $$$$$$$$$$$$$$$$$$$$" << endl;
+    cout << "\n$$$$$$$$$$$$$$$$$$$$      Reporte Activos Disponibles de una Empresa        $$$$$$$$$$$$$$$$$$$$" <<
+            endl;
     cout << "$$$$$$$$$$$$$$$$$$$$      Empresas       $$$$$$$$$$$$$$$$$$$$\n" << endl;
 
     NodoMD *aux = matriz->getCV();
@@ -317,7 +321,8 @@ void Administrador::reporteActivosDisponiblesEmpresa() {
     }
 
     NodoMD *usuario = nodoEmpresa->getSiguiente();
-    string grafico = "digraph G {\nfontcolor=black;\nlabel=\"Activos disponibles " + empresa +" \";\nlabelloc=\"t\";\n";
+    string grafico = "digraph G {\nfontcolor=black;\nlabel=\"Activos disponibles " + empresa +
+                     " \";\nlabelloc=\"t\";\n";
     while (usuario != nullptr) {
         NodoMD *usuarioAtras = usuario;
         while (usuarioAtras != nullptr) {
@@ -336,9 +341,9 @@ void Administrador::reporteActivosDisponiblesEmpresa() {
 }
 
 void Administrador::reporteTransacciones(ListaCircularDoble *lcde, std::string titulo, std::string path) {
-
     string config =
-            "bgcolor=\"#F5F5F5\";fontcolor=black;\nlabel=\"" + titulo + "\";\nlabelloc=\"t\";\nnodesep=0.5;\nnode [fontsize = 5 shape=box style=filled fillcolor=\"#004488\" fontcolor=\"#F5F5F5\" color=transparent];\nedge [fontcolor=white color=\"#ff5722\"];\n";
+            "bgcolor=\"#F5F5F5\";fontcolor=black;\nlabel=\"" + titulo +
+            "\";\nlabelloc=\"t\";\nnodesep=0.5;\nnode [fontsize = 5 shape=box style=filled fillcolor=\"#004488\" fontcolor=\"#F5F5F5\" color=transparent];\nedge [fontcolor=white color=\"#ff5722\"];\n";
 
     string defNodo;
     string relNodo;
@@ -349,11 +354,12 @@ void Administrador::reporteTransacciones(ListaCircularDoble *lcde, std::string t
     int id = 1;
     while (true) {
         string nodoActual = "n" + to_string(id);
-        defNodo += nodoActual + "[label=\"id = " + aux->getTransaccion()->getActivo()->getId() + "\\nTipo = " + aux->getTransaccion()
-                ->getTipo()
-                + "\\nUsuario = " + aux->getTransaccion()->getUsuario()->getUsername() + "\\nActivo = " + aux->
-                getTransaccion()->getActivo()->getNombre()
-                + "\\nTiempo renta = " + to_string(aux->getTransaccion()->getTiempoRenta()) + "\"];\n";
+        defNodo += nodoActual + "[label=\"id = " + aux->getTransaccion()->getActivo()->getId()
+                + "\\nTipo = " + aux->getTransaccion()->getTipo()
+                + "\\nUsuario = " + aux->getTransaccion()->getUsuario()->getUsername()
+                + "\\nActivo = " + aux->getTransaccion()->getActivo()->getNombre()
+                + "\\nTiempo renta = " + to_string(aux->getTransaccion()->getTiempoRenta())
+                + "\\nFecha = " + aux->getTransaccion()->getFecha() + "\"];\n";
 
         if (aux->getSiguiente() != nullptr && aux != lcde->getCola()) {
             relNodo += nodoActual + "->n" + to_string((id + 1)) + ";\n";
@@ -379,7 +385,6 @@ void Administrador::reporteTransacciones(ListaCircularDoble *lcde, std::string t
 }
 
 void Administrador::reporteActivosUsuario() {
-
     cout << "\n$$$$$$$$$$$$$$$$$$$$        Reporte Activos de un Usuario        $$$$$$$$$$$$$$$$$$$$" << endl;
     cout << "$$$$$$$$$$$$$$$$$$$$$       Usuarios         $$$$$$$$$$$$$$$$$$$$$\n" << endl;
     verUsuarios();
@@ -406,7 +411,7 @@ void Administrador::reporteActivosUsuario() {
     if (nodoUsuario == nullptr) {
         cout << "No se encontro el usuario!. Porfavor intentelo denuevo\n" << endl;
     } else {
-        string grafico = "digraph G {\nfontcolor=black;\nlabel=\"Activos " + username +" \";\nlabelloc=\"t\";\n";
+        string grafico = "digraph G {\nfontcolor=black;\nlabel=\"Activos " + username + " \";\nlabelloc=\"t\";\n";
         grafico += "n" + to_string(nodoUsuario->getIdNodo()) + "[label=\"" + nodoUsuario->getUsuario()->getUsername() +
                 "\" shape=\"box\"];\n";
         grafico += "n" + to_string(nodoUsuario->getIdNodo()) + "->n" + nodoUsuario->getUsuario()->getActivos()->
@@ -438,7 +443,6 @@ void Administrador::verUsuarios() {
 }
 
 void Administrador::activosRentadosUsuario() {
-
     cout << "\n$$$$$$$$$$$$$$$$$$$$        Reporte Activos Rentados por un Usuario        $$$$$$$$$$$$$$$$$$$$" << endl;
     cout << "$$$$$$$$$$$$$$$$$$$$$       Usuarios        $$$$$$$$$$$$$$$$$$$$\n" << endl;
     verUsuarios();
@@ -471,9 +475,9 @@ void Administrador::activosRentadosUsuario() {
             return;
         }
         while (true) {
-            if (transActual->getTransaccion()->getUsuario() == nodoUsuario->getUsuario() && transActual->getTransaccion()->
-                getTipo() == "Renta") {
-                NodoLCDE *transSiguiente = transActual->getSiguiente();
+            if (transActual->getTransaccion()->getUsuario() == nodoUsuario->getUsuario()
+                && transActual->getTransaccion()->getTipo() == "Renta") {
+                /*NodoLCDE *transSiguiente = transActual->getSiguiente();
                 bool enRenta = true;
                 while (true) {
                     if (transSiguiente == listaCircularDoble->getCabeza()) {
@@ -486,17 +490,19 @@ void Administrador::activosRentadosUsuario() {
                         break;
                     }
                     transSiguiente = transSiguiente->getSiguiente();
-                }
-                if (enRenta) {
-                    auxLcde->agregarTransaccion(transActual->getTransaccion());
-                }
+                }*/
+                //if (enRenta) {
+                auxLcde->agregarTransaccion(transActual->getTransaccion());
+                //}
             }
             transActual = transActual->getSiguiente();
             if (transActual == listaCircularDoble->getCabeza()) {
                 break;
             }
         }
-        reporteTransacciones(auxLcde, "Activos rentados " + nodoUsuario->getUsuario()->getUsername(), "../reporteActivosRentadosUsuario/activos_rentados_" + nodoUsuario->getUsuario()->getUsername() + ".svg");
+        reporteTransacciones(auxLcde, "Activos rentados " + nodoUsuario->getUsuario()->getUsername(),
+                             "../reporteActivosRentadosUsuario/activos_rentados_" + nodoUsuario->getUsuario()->
+                             getUsername() + ".svg");
     }
 }
 
@@ -532,7 +538,8 @@ void Administrador::ordenarTransacciones(std::string nombreOrden, int orden) {
             actual = siguiente;
         } while (actual->getSiguiente() != lcde->getCabeza()); // Recorrer toda la lista circular
     } while (cambiado);
-    reporteTransacciones(lcde, "Historial de transacciones ordenadas " + nombreOrden, "../reporteTransacciones/transacciones_ordenadas_" + nombreOrden + ".svg");
+    reporteTransacciones(lcde, "Historial de transacciones ordenadas " + nombreOrden,
+                         "../reporteTransacciones/transacciones_ordenadas_" + nombreOrden + ".svg");
 }
 
 bool Administrador::insertarAtras(string username) {
