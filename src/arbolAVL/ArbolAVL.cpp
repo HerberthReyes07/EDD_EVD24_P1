@@ -31,10 +31,6 @@ void ArbolAVL::eliminar(std::string idActivo) {
     eliminar(idActivo, this->raiz);
 }
 
-void ArbolAVL::modificar(std::string idActivo, std::string nuevaDescripcion) {
-    modificar(idActivo, nuevaDescripcion, this->raiz);
-}
-
 Activo *ArbolAVL::buscar(std::string idActivo) {
     return buscar(idActivo, this->raiz);
 }
@@ -48,10 +44,6 @@ std::string ArbolAVL::generarGrafico() {
     generarGrafico(this->raiz, grafico);
     return grafico;
 }
-
-/*void ArbolAVL::recorrerMisActivosRentados(ListaCircularDoble *transacciones) {
-    recorrerMisActivosRentados(this->raiz, transacciones);
-}*/
 
 void ArbolAVL::insertar(NodoAVL *activo, NodoAVL *&raiz) {
     if (raiz == nullptr) {
@@ -161,27 +153,6 @@ void ArbolAVL::eliminar(std::string idActivo, NodoAVL *&raiz) {
     }
 }
 
-void ArbolAVL::modificar(std::string idActivo, std::string nuevaDescripcion, NodoAVL *&raiz) {
-    if (raiz != nullptr) {
-        if (idActivo == raiz->getActivo()->getId()) {
-            raiz->getActivo()->setDescripcion(nuevaDescripcion);
-            cout << "\nActivo Modificado;"
-                    "\nID = " << raiz->getActivo()->getId() <<
-                    "\nNombre = " << raiz->getActivo()->getNombre() <<
-                    "\nDescripcion = " << raiz->getActivo()->getDescripcion() << endl;
-            return;
-        } else if (idActivo.compare(raiz->getActivo()->getId()) < 0) {
-            return modificar(idActivo, nuevaDescripcion, raiz->getIzquierda());
-        } else {
-            return modificar(idActivo, nuevaDescripcion, raiz->getDerecha());
-        }
-    } else {
-        cout << "No se puede modificar el activo con el id: " << idActivo <<
-                " ya que no se encontro. Por favor verifique el id ingresado" << endl;
-        return;
-    }
-}
-
 Activo *ArbolAVL::buscar(std::string idActivo, NodoAVL *&raiz) {
     if (raiz != nullptr) {
         if (idActivo == raiz->getActivo()->getId()) {
@@ -208,26 +179,6 @@ void ArbolAVL::recorrer(NodoAVL *&raiz) {
     recorrer(raiz->getIzquierda());
     recorrer(raiz->getDerecha());
 }
-
-/*void ArbolAVL::recorrerMisActivosRentados(NodoAVL *&raiz, ListaCircularDoble *transacciones) {
-    if (raiz == nullptr) {
-        return;
-    }
-    if (raiz->getActivo()->getEstaRentado() == true) {
-        NodoLCDE *transaccion = transacciones->getCola();
-        while (true) {
-            if (transaccion->getTransaccion()->getActivo() == raiz->getActivo()) {
-                cout << "ID = " << raiz->getActivo()->getId() << " ; Nombre = " << raiz->getActivo()->getNombre()
-                        << " ; Descripcion = " << raiz->getActivo()->getDescripcion()
-                        << " ; Tiempo rentado = " << transaccion->getTransaccion()->getTiempoRenta() << endl;
-                break;
-            }
-            transaccion = transaccion->getAnterior();
-        }
-    }
-    recorrer(raiz->getIzquierda());
-    recorrer(raiz->getDerecha());
-}*/
 
 void ArbolAVL::rotacionSD(NodoAVL *&nodo) {
     NodoAVL *aux = nodo->getIzquierda();

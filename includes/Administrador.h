@@ -36,7 +36,7 @@ public:
 
     void reporteActivosDisponiblesEmpresa();
 
-    void reporteTransacciones(ListaCircularDoble *lcde, std::string titulo, std::string nombreArchivo);
+    void reporteTransacciones(ListaCircularDoble *lcde, std::string titulo, std::string path);
 
     void reporteActivosUsuario();
 

@@ -5,8 +5,6 @@
 #ifndef ARBOLAVL_H
 #define ARBOLAVL_H
 #include "NodoAVL.h"
-//#include "../listaCircularDoblementeEnlazada/ListaCircularDoble.h"
-//#include "../listaCircularDoblementeEnlazada/NodoLCDE.h"
 
 class ArbolAVL {
 private:
@@ -15,8 +13,6 @@ private:
     void insertar(NodoAVL *activo, NodoAVL * &raiz);
 
     void eliminar(std::string idActivo, NodoAVL * &raiz);
-
-    void modificar(std::string idActivo, std::string nuevaDescripcion, NodoAVL * &raiz);
 
     Activo *buscar(std::string idActivo, NodoAVL * &raiz);
 
@@ -52,8 +48,6 @@ public:
     void insertar(Activo *activo);
 
     void eliminar(std::string idActivo);
-
-    void modificar(std::string idActivo, std::string nuevaDescripcion);
 
     Activo *buscar(std::string idActivo);
 

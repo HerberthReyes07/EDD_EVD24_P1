@@ -5,6 +5,7 @@
 #include "includes/arbolAVL/ArbolAVL.h"
 #include "includes/listaCircularDoblementeEnlazada/ListaCircularDoble.h"
 #include "includes/matrizDispersa/MatrizDispersa.h"
+#include <limits>
 
 using namespace std;
 
@@ -148,9 +149,19 @@ int main() {
         cout << "$$$$$$$$$$$$$$$$$$$$ 1. Iniciar sesión  $$$$$$$$$$$$$$$$$$$$" << endl;
         cout << "$$$$$$$$$$$$$$$$$$$$ 2. Cerrar programa $$$$$$$$$$$$$$$$$$$$\n" << endl;
 
-        cout << "Ingresar opción: ";
-        cin >> opcion;
-        cin.ignore();
+        try {
+            cout << "Ingresar opción: ";
+            cin >> opcion;
+            if (cin.fail()) {
+                throw invalid_argument("Entrada inválida, porfavor intentelo denuevo.");
+            }
+            cin.ignore();
+        } catch (const invalid_argument &e) {
+            cout << e.what() << endl;
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            continue;
+        }
 
         switch (opcion) {
             case 1: {
@@ -210,5 +221,4 @@ int main() {
             }
         }
     }
-
 }

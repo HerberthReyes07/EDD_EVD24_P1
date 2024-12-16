@@ -5,6 +5,7 @@
 #include "../includes/Cliente.h"
 #include "../includes/Transaccion.h"
 #include <ctime>
+#include <limits>
 
 using namespace std;
 
@@ -52,9 +53,20 @@ void Cliente::menu() {
         cout << "$$$$$$$$$$$$$$$$$$$$   7. Cerrar Sesión         $$$$$$$$$$$$$$$$$$$$\n" << endl;
 
         int opcion;
-        cout << "Ingresar opción: ";
-        cin >> opcion;
-        cin.ignore();
+
+        try {
+            cout << "Ingresar opción: ";
+            cin >> opcion;
+            if (!cin) {
+                throw invalid_argument("Entrada inválida, porfavor intentelo denuevo.");
+            }
+            cin.ignore();
+        } catch (const invalid_argument &e) {
+            cout << e.what() << endl;
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            continue;
+        }
 
         switch (opcion) {
             case 1: {
@@ -108,9 +120,22 @@ void Cliente::agregarActivo() {
     getline(cin, descripcion);
 
     int diasMaxRenta;
-    cout << "Ingresar maximo de dias para rentar el activo: ";
-    cin >> diasMaxRenta;
-    cin.ignore();
+
+    while (true) {
+        try {
+            cout << "Ingresar maximo de dias para rentar el activo: ";
+            cin >> diasMaxRenta;
+            if (!cin) {
+                throw invalid_argument("Entrada inválida, porfavor intentelo denuevo.");
+            }
+            cin.ignore();
+            break;
+        } catch (const invalid_argument &e) {
+            cout << e.what() << endl;
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        }
+    }
 
     Activo *activo = new Activo(generarAlfanumerico(), nombre, descripcion, diasMaxRenta, false);
     usuario->getUsuario()->getActivos()->insertar(activo);
@@ -128,16 +153,6 @@ void Cliente::eliminarActivo() {
 
     cout << "\n$$$$$$$$$$$$$$$$$$$$     Eliminando Activo       $$$$$$$$$$$$$$$$$$$$\n" << endl;
     usuario->getUsuario()->getActivos()->eliminar(id);
-    /*
-     * // Lista de activos
-     * string id;
-     * cout << "Ingresar ID del activo a eliminar: ";
-     * cin >> id;
-     * // Buscar y eliminar
-     * cout << "$$$$$$$$$$$$$$$$$$$$     Eliminando Activo       $$$$$$$$$$$$$$$$$$$$\n" << endl;
-     * cout << "Activo eliminado;";
-     * // mostrar (usando un activoTemp)
-     */
 }
 
 void Cliente::modificarActivo() {
@@ -155,7 +170,6 @@ void Cliente::modificarActivo() {
     cout << "Ingresar descripción nueva: ";
     getline(cin, descripcion);
 
-    //usuario->getUsuario()->getActivos()->modificar(id, descripcion);
     Activo *activo = usuario->getUsuario()->getActivos()->buscar(id);
     if (activo != nullptr) {
         if (activo->getEstaRentado() == false) {
@@ -171,46 +185,41 @@ void Cliente::modificarActivo() {
         cout << "No se puede modificar el activo con el id: " << id <<
                 " ya que no se encontro. Por favor verifique el id ingresado" << endl;
     }
-    /*
-     * // Lista de activos
-     * string id;
-     * cout << "Ingresar ID del activo a modificar: ";
-     * cin >> id;
-     * cout << "$$$$$$$$$$$$$$$$$$$$     Modificando Activo       $$$$$$$$$$$$$$$$$$$$\n" << endl;
-     * cout << "Ingresar descripción nueva: ";
-     * // Buscar, modificar y mostrar
-     */
 }
 
 void Cliente::rentarActivo() {
     bool regresarMenu = false;
     while (true) {
         cout << "\n$$$$$$$$$$$$$$$$$$$$     Catálogo de Activos     $$$$$$$$$$$$$$$$$$$$\n" << endl;
-        /*
-         * Lista de activos disponibles para rentar
-         *
-         */
+
         verCatalogo();
 
         cout << "\n$$$$$$$$$$$$$$$$$$$$   1. Rentar Activo        $$$$$$$$$$$$$$$$$$$$" << endl;
         cout << "$$$$$$$$$$$$$$$$$$$$   2. Regresar al menú     $$$$$$$$$$$$$$$$$$$$\n" << endl;
 
         int opcion;
-        cout << "Ingresar opción: ";
-        cin >> opcion;
-        cout << endl;
-        cin.ignore();
+        try {
+            cout << "Ingresar opción: ";
+            cin >> opcion;
+            if (!cin) {
+                throw invalid_argument("Entrada inválida, porfavor intentelo denuevo.");
+            }
+            cin.ignore();
+        } catch (const invalid_argument &e) {
+            cout << e.what() << endl;
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            continue;
+        }
 
         switch (opcion) {
             case 1: {
-                cout << "$$$$$$$$$$$$$$$$$$$$     Renta de Activo     $$$$$$$$$$$$$$$$$$$$\n" << endl;
+                cout << "\n$$$$$$$$$$$$$$$$$$$$     Renta de Activo     $$$$$$$$$$$$$$$$$$$$\n" << endl;
 
                 string id;
                 cout << "Ingresar id del activo a rentar: ";
                 getline(cin, id);
-                /*
-                 * Mostrar info del activo a rentar
-                 */
+
                 Activo *activo = buscarActivo(id);
 
                 if (activo != nullptr) {
@@ -223,12 +232,21 @@ void Cliente::rentarActivo() {
 
                         cout << endl;
                         int diasRenta;
-                        cout << "Ingresar dias por rentar: ";
-                        cin >> diasRenta;
-                        cin.ignore();
-                        /*
-                         * Verificar que los dias a rentar no excendan el maximo
-                         */
+
+                        try {
+                            cout << "Ingresar dias por rentar: ";
+                            cin >> diasRenta;
+                            if (!cin) {
+                                throw invalid_argument("Entrada inválida, porfavor intentelo denuevo.");
+                            }
+                            cin.ignore();
+                        } catch (const invalid_argument &e) {
+                            cout << e.what() << endl;
+                            cin.clear();
+                            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                            break;
+                        }
+
                         if (diasRenta <= activo->getTiempoMaxRenta()) {
                             Transaccion *transaccion = new Transaccion(generarAlfanumerico(), "Renta", diasRenta,
                                                                        usuario->getUsuario(), activo, obtenerFecha());
@@ -312,23 +330,31 @@ void Cliente::activosRentados() {
     bool regresarMenu = false;
     while (true) {
         cout << "\n$$$$$$$$$$$$$$$$$$$$     Activos rentados     $$$$$$$$$$$$$$$$$$$$\n" << endl;
-        /*
-         * Lista de activos rentados
-         *
-         */
+
         verCatalogoActivosRentados();
+
         cout << "\n$$$$$$$$$$$$$$$$$$$$   1. Devolver Activo      $$$$$$$$$$$$$$$$$$$$" << endl;
         cout << "$$$$$$$$$$$$$$$$$$$$   2. Regresar al menú     $$$$$$$$$$$$$$$$$$$$\n" << endl;
 
         int opcion;
-        cout << "Ingresar opción: ";
-        cin >> opcion;
-        cout << endl;
-        cin.ignore();
+
+        try {
+            cout << "Ingresar opción: ";
+            cin >> opcion;
+            if (!cin) {
+                throw invalid_argument("Entrada inválida, porfavor intentelo denuevo.");
+            }
+            cin.ignore();
+        } catch (const invalid_argument &e) {
+            cout << e.what() << endl;
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            continue;
+        }
 
         switch (opcion) {
             case 1: {
-                cout << "$$$$$$$$$$$$$$$$$$$$     Devolución de Activo     $$$$$$$$$$$$$$$$$$$$\n" << endl;
+                cout << "\n$$$$$$$$$$$$$$$$$$$$     Devolución de Activo     $$$$$$$$$$$$$$$$$$$$\n" << endl;
 
                 string id;
                 cout << "Ingresar id del activo a devolver: ";
@@ -344,7 +370,8 @@ void Cliente::activosRentados() {
                                 "\nDescripcion = " << activo->getDescripcion() << endl;
 
                         Transaccion *transaccion = new Transaccion(generarAlfanumerico(), "Devolucion",
-                            activo->getTiempoMaxRenta(),usuario->getUsuario(), activo, obtenerFecha());
+                                                                   activo->getTiempoMaxRenta(), usuario->getUsuario(),
+                                                                   activo, obtenerFecha());
                         listaCircularDoble->agregarTransaccion(transaccion);
                         activo->setEstaRentado(false);
                         cout << "Activo devuelto exitosamente!\n" << endl;
@@ -411,29 +438,30 @@ void Cliente::verCatalogoActivosRentados() {
 }
 
 void Cliente::misActivosRentados() {
-    bool regresarMenu = false;
     cout << "\n$$$$$$$$$$$$$$$$$$$$     Mis Activos rentados     $$$$$$$$$$$$$$$$$$$$\n" << endl;
-    /*
-     * Lista de activos rentados
-     */
+
     recorrerMisActivosRentados();
+
     while (true) {
         int opcion;
-        cout << "Ingresar 1 para regresar al menú: ";
-        cin >> opcion;
-        switch (opcion) {
-            case 1: {
-                regresarMenu = true;
-                break;
+        try {
+            cout << "Ingresar 1 para regresar al menú: ";
+            cin >> opcion;
+            if (!cin) {
+                throw invalid_argument("Entrada inválida, porfavor intentelo denuevo.");
             }
-            default: {
-                cout << "Error!. Por favor ingrese una opción válida\n" << endl;
-                break;
-            }
+            cout << endl;
+            cin.ignore();
+        } catch (const invalid_argument &e) {
+            cout << e.what() << endl;
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            continue;
         }
-        if (regresarMenu) {
-            //regresarMenu = false;
+        if(opcion == 1) {
             break;
+        } else {
+            cout << "Error!. Por favor ingrese una opción válida\n" << endl;
         }
     }
 }

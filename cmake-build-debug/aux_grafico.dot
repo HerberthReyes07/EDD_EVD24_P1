@@ -1,15 +1,18 @@
 digraph G {
 bgcolor="#F5F5F5";fontcolor=black;
-label="Activos rentados U2";
+label="Historial de transacciones ordenadas descendentemente";
 labelloc="t";
 nodesep=0.5;
 node [fontsize = 5 shape=box style=filled fillcolor="#004488" fontcolor="#F5F5F5" color=transparent];
 edge [fontcolor=white color="#ff5722"];
-n1[label="id = dw9h8cenzhge37g\nTipo = Renta\nUsuario = U2\nActivo = A31\nTiempo renta = 1"];
-n2[label="id = 8j29wig49f3rdey\nTipo = Renta\nUsuario = U2\nActivo = A13\nTiempo renta = 2"];
+n1[label="id = 87m11g75788f6sc\nTipo = Renta\nUsuario = U1\nActivo = A33\nTiempo renta = 3"];
+n2[label="id = mjf6r66m1989a6i\nTipo = Renta\nUsuario = U1\nActivo = A23\nTiempo renta = 2"];
+n3[label="id = b12ebn604b7rir9\nTipo = Renta\nUsuario = U1\nActivo = A13\nTiempo renta = 1"];
 n1->n2;
+n2->n3;
 n2->n1;
-n2->n1[tailport=n headport=n];
-n1->n2[tailport=s headport=s];
-{ rank=same; n1; n2; }
+n3->n2;
+n3->n1[tailport=n headport=n];
+n1->n3[tailport=s headport=s];
+{ rank=same; n1; n2; n3; }
 }
