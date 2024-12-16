@@ -4,11 +4,14 @@
 
 #include "../includes/Usuario.h"
 
-Usuario::Usuario(){};
+Usuario::Usuario() {
+};
 
-Usuario::~Usuario(){};
+Usuario::~Usuario() {
+};
 
-Usuario::Usuario(std::string username, std::string password, std::string nombre, std::string departamento, std::string empresa) {
+Usuario::Usuario(std::string username, std::string password, std::string nombre, std::string departamento,
+                 std::string empresa) {
     this->username = username;
     this->password = password;
     this->nombre = nombre;
@@ -36,6 +39,10 @@ std::string Usuario::getEmpresa() {
     return this->empresa;
 }
 
+ArbolAVL *Usuario::getActivos() {
+    return this->activos;
+}
+
 void Usuario::setUsersname(std::string username) {
     this->username = username;
 }
@@ -54,4 +61,8 @@ void Usuario::setDepartamento(std::string departamento) {
 
 void Usuario::setEmpresa(std::string empresa) {
     this->empresa = empresa;
+}
+
+void Usuario::setActivos(ArbolAVL *activos) {
+    this->activos = activos;
 }

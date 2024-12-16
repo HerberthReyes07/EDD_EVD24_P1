@@ -13,6 +13,8 @@ private:
     MatrizDispersa *matriz;
     ListaCircularDoble *listaCircularDoble;
 
+    void verUsuarios();
+
 public:
     Administrador();
 

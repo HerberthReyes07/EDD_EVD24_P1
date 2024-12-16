@@ -5,6 +5,8 @@
 #ifndef ARBOLAVL_H
 #define ARBOLAVL_H
 #include "NodoAVL.h"
+//#include "../listaCircularDoblementeEnlazada/ListaCircularDoble.h"
+//#include "../listaCircularDoblementeEnlazada/NodoLCDE.h"
 
 class ArbolAVL {
 private:
@@ -16,7 +18,13 @@ private:
 
     void modificar(std::string idActivo, std::string nuevaDescripcion, NodoAVL * &raiz);
 
+    Activo *buscar(std::string idActivo, NodoAVL * &raiz);
+
     void recorrer(NodoAVL * &raiz);
+
+    void generarGrafico(NodoAVL * &raiz, std::string &grafico);
+
+    //void recorrerMisActivosRentados(NodoAVL *&raiz, ListaCircularDoble *transacciones);
 
     int alturaMaxNodo(NodoAVL *nodo);
 
@@ -49,6 +57,12 @@ public:
 
     void modificar(std::string idActivo, std::string nuevaDescripcion);
 
+    Activo *buscar(std::string idActivo);
+
     void recorrer();
+
+    //void recorrerMisActivosRentados(ListaCircularDoble *transacciones);
+
+    std::string generarGrafico();
 };
 #endif //ARBOLAVL_H

@@ -3,7 +3,8 @@
 //
 
 #include "../includes/Cliente.h"
-
+#include "../includes/Transaccion.h"
+#include <ctime>
 
 using namespace std;
 
@@ -13,9 +14,10 @@ Cliente::Cliente() {
 Cliente::~Cliente() {
 };
 
-Cliente::Cliente(NodoMD *usuario, MatrizDispersa *matriz) {
+Cliente::Cliente(NodoMD *usuario, MatrizDispersa *matriz, ListaCircularDoble *listaCircularDoble) {
     this->usuario = usuario;
     this->matriz = matriz;
+    this->listaCircularDoble = listaCircularDoble;
 }
 
 NodoMD *Cliente::getUsuario() {
@@ -37,7 +39,7 @@ void Cliente::setMatriz(MatrizDispersa *matriz) {
 void Cliente::menu() {
     bool sesionCerrada = false;
     while (true) {
-        cout << "$$$$$$$$$$$$$$$$$$$$     Renta de Activos       $$$$$$$$$$$$$$$$$$$$" << endl;
+        cout << "\n$$$$$$$$$$$$$$$$$$$$     Renta de Activos       $$$$$$$$$$$$$$$$$$$$" << endl;
         cout << "$$$$$$$$$$$$$$$$$$$$       " << this->usuario->getUsuario()->getUsername() <<
                 "          $$$$$$$$$$$$$$$$$$$$" <<
                 endl;
@@ -52,6 +54,7 @@ void Cliente::menu() {
         int opcion;
         cout << "Ingresar opción: ";
         cin >> opcion;
+        cin.ignore();
 
         switch (opcion) {
             case 1: {
@@ -94,17 +97,37 @@ void Cliente::menu() {
 }
 
 void Cliente::agregarActivo() {
-    cout << "$$$$$$$$$$$$$$$$$$$$      Agregar Activo        $$$$$$$$$$$$$$$$$$$$\n" << endl;
-    /*
-     * Activo activo = new activo();
-     * cout << "Ingresar nombre: ";
-     * cin >> activo.nombre;
-     * cout << "Ingresar descripción: ";
-     */
+    cout << "\n$$$$$$$$$$$$$$$$$$$$      Agregar Activo        $$$$$$$$$$$$$$$$$$$$\n" << endl;
+    //Activo *activo = new Activo();
+    string nombre;
+    cout << "Ingresar Nombre: ";
+    getline(cin, nombre);
+
+    string descripcion;
+    cout << "Ingresar Descripcion: ";
+    getline(cin, descripcion);
+
+    int diasMaxRenta;
+    cout << "Ingresar maximo de dias para rentar el activo: ";
+    cin >> diasMaxRenta;
+    cin.ignore();
+
+    Activo *activo = new Activo(generarAlfanumerico(), nombre, descripcion, diasMaxRenta, false);
+    usuario->getUsuario()->getActivos()->insertar(activo);
 }
 
 void Cliente::eliminarActivo() {
-    cout << "$$$$$$$$$$$$$$$$$$$$      Eliminar Activo        $$$$$$$$$$$$$$$$$$$$\n" << endl;
+    cout << "\n$$$$$$$$$$$$$$$$$$$$      Eliminar Activo        $$$$$$$$$$$$$$$$$$$$\n" << endl;
+    usuario->getUsuario()->getActivos()->recorrer();
+
+    cout << endl;
+    string id;
+    cout << "Ingresar ID del activo a eliminar: ";
+    getline(cin, id);
+    //cin.ignore();
+
+    cout << "\n$$$$$$$$$$$$$$$$$$$$     Eliminando Activo       $$$$$$$$$$$$$$$$$$$$\n" << endl;
+    usuario->getUsuario()->getActivos()->eliminar(id);
     /*
      * // Lista de activos
      * string id;
@@ -118,7 +141,36 @@ void Cliente::eliminarActivo() {
 }
 
 void Cliente::modificarActivo() {
-    cout << "$$$$$$$$$$$$$$$$$$$$      Modificar Activo      $$$$$$$$$$$$$$$$$$$$\n" << endl;
+    cout << "\n$$$$$$$$$$$$$$$$$$$$      Modificar Activo      $$$$$$$$$$$$$$$$$$$$\n" << endl;
+    usuario->getUsuario()->getActivos()->recorrer();
+
+    cout << endl;
+    string id;
+    cout << "Ingresar ID del activo a modificar: ";
+    getline(cin, id);
+
+    cout << "\n$$$$$$$$$$$$$$$$$$$$     Modificando Activo       $$$$$$$$$$$$$$$$$$$$\n" << endl;
+
+    string descripcion;
+    cout << "Ingresar descripción nueva: ";
+    getline(cin, descripcion);
+
+    //usuario->getUsuario()->getActivos()->modificar(id, descripcion);
+    Activo *activo = usuario->getUsuario()->getActivos()->buscar(id);
+    if (activo != nullptr) {
+        if (activo->getEstaRentado() == false) {
+            activo->setDescripcion(descripcion);
+            cout << "\nActivo Modificado;"
+                    "\nID = " << activo->getId() <<
+                    "\nNombre = " << activo->getNombre() <<
+                    "\nDescripcion = " << activo->getDescripcion() << endl;
+        } else {
+            cout << "No se puede modificar el activo con el id: " << id << " ya que esta rentado" << endl;
+        }
+    } else {
+        cout << "No se puede modificar el activo con el id: " << id <<
+                " ya que no se encontro. Por favor verifique el id ingresado" << endl;
+    }
     /*
      * // Lista de activos
      * string id;
@@ -133,18 +185,21 @@ void Cliente::modificarActivo() {
 void Cliente::rentarActivo() {
     bool regresarMenu = false;
     while (true) {
-        cout << "$$$$$$$$$$$$$$$$$$$$     Catálogo de Activos     $$$$$$$$$$$$$$$$$$$$\n" << endl;
+        cout << "\n$$$$$$$$$$$$$$$$$$$$     Catálogo de Activos     $$$$$$$$$$$$$$$$$$$$\n" << endl;
         /*
          * Lista de activos disponibles para rentar
          *
          */
-        cout << "$$$$$$$$$$$$$$$$$$$$   1. Rentar Activo        $$$$$$$$$$$$$$$$$$$$" << endl;
+        verCatalogo();
+
+        cout << "\n$$$$$$$$$$$$$$$$$$$$   1. Rentar Activo        $$$$$$$$$$$$$$$$$$$$" << endl;
         cout << "$$$$$$$$$$$$$$$$$$$$   2. Regresar al menú     $$$$$$$$$$$$$$$$$$$$" << endl;
 
         int opcion;
         cout << "Ingresar opción: ";
         cin >> opcion;
         cout << endl;
+        cin.ignore();
 
         switch (opcion) {
             case 1: {
@@ -152,19 +207,46 @@ void Cliente::rentarActivo() {
 
                 string id;
                 cout << "Ingresar id del activo a rentar: ";
-                cin >> id;
-
+                getline(cin, id);
                 /*
                  * Mostrar info del activo a rentar
                  */
+                Activo *activo = buscarActivo(id);
 
-                int diasRenta;
-                cout << "Ingresar dias por rentar: ";
-                cin >> diasRenta;
+                if (activo != nullptr) {
+                    if (activo->getEstaRentado() == false) {
+                        cout << "\nActivo a Rentar;"
+                                "\nID = " << activo->getId() <<
+                                "\nNombre = " << activo->getNombre() <<
+                                "\nDescripcion = " << activo->getDescripcion() <<
+                                "\nTiempo maximo de renta = " << activo->getTiempoMaxRenta() << endl;
 
-                /*
-                 * Verificar que los dias a rentar no excendan el maximo
-                 */
+                        cout << endl;
+                        int diasRenta;
+                        cout << "Ingresar dias por rentar: ";
+                        cin >> diasRenta;
+                        cin.ignore();
+                        /*
+                         * Verificar que los dias a rentar no excendan el maximo
+                         */
+                        if (diasRenta <= activo->getTiempoMaxRenta()) {
+                            Transaccion *transaccion = new Transaccion(generarAlfanumerico(), "Renta", diasRenta,
+                                                                       usuario->getUsuario(), activo, obtenerFecha());
+                            listaCircularDoble->agregarTransaccion(transaccion);
+                            activo->setEstaRentado(true);
+                            cout << "Transaccion realizada con exito!" << endl;
+                        } else {
+                            cout << "No puede rentar el activo con el id: " << id <<
+                                    " ya que excede el máximo de días que puede rentarse (" << activo->
+                                    getTiempoMaxRenta() << ")" << endl;
+                        }
+                    } else {
+                        cout << "No se puede rentar el activo con el id: " << id << " ya que esta rentado" << endl;
+                    }
+                } else {
+                    cout << "No se puede rentar el activo con el id: " << id <<
+                            " ya que no se encontro. Por favor verifique el id ingresado" << endl;
+                }
 
                 break;
             }
@@ -184,21 +266,65 @@ void Cliente::rentarActivo() {
     }
 }
 
+void Cliente::verCatalogo() {
+    NodoMD *nodoV = matriz->getCV();
+
+    while (nodoV != nullptr) {
+        NodoMD *nodoU = nodoV->getSiguiente();
+        while (nodoU != nullptr) {
+            NodoMD *nodoUA = nodoU;
+            while (nodoUA != nullptr) {
+                if (nodoUA != usuario) {
+                    nodoUA->getUsuario()->getActivos()->recorrer();
+                }
+                nodoUA = nodoUA->getAtras();
+            }
+            nodoU = nodoU->getSiguiente();
+        }
+        nodoV = nodoV->getAbajo();
+    }
+}
+
+Activo *Cliente::buscarActivo(std::string id) {
+    NodoMD *nodoV = matriz->getCV();
+
+    while (nodoV != nullptr) {
+        NodoMD *nodoU = nodoV->getSiguiente();
+        while (nodoU != nullptr) {
+            NodoMD *nodoUA = nodoU;
+            while (nodoUA != nullptr) {
+                if (nodoUA != usuario) {
+                    Activo *activo = nodoUA->getUsuario()->getActivos()->buscar(id);
+                    if (activo != nullptr) {
+                        return activo;
+                    }
+                }
+                nodoUA = nodoUA->getAtras();
+            }
+            nodoU = nodoU->getSiguiente();
+        }
+        nodoV = nodoV->getAbajo();
+    }
+    return nullptr;
+}
+
 void Cliente::activosRentados() {
     bool regresarMenu = false;
     while (true) {
-        cout << "$$$$$$$$$$$$$$$$$$$$     Activos rentados     $$$$$$$$$$$$$$$$$$$$\n" << endl;
+        cout << "\n$$$$$$$$$$$$$$$$$$$$     Activos rentados     $$$$$$$$$$$$$$$$$$$$\n" << endl;
         /*
          * Lista de activos rentados
          *
          */
-        cout << "$$$$$$$$$$$$$$$$$$$$   1. Devolver Activo      $$$$$$$$$$$$$$$$$$$$" << endl;
-        cout << "$$$$$$$$$$$$$$$$$$$$   2. Regresar al menú     $$$$$$$$$$$$$$$$$$$$" << endl;
+        verCatalogoActivosRentados();
+        cout << "\n$$$$$$$$$$$$$$$$$$$$   1. Devolver Activo      $$$$$$$$$$$$$$$$$$$$" << endl;
+        cout << "$$$$$$$$$$$$$$$$$$$$   2. Regresar al menú     $$$$$$$$$$$$$$$$$$$$\n" << endl;
 
         int opcion;
         cout << "Ingresar opción: ";
         cin >> opcion;
         cout << endl;
+        cin.ignore();
 
         switch (opcion) {
             case 1: {
@@ -206,12 +332,30 @@ void Cliente::activosRentados() {
 
                 string id;
                 cout << "Ingresar id del activo a devolver: ";
-                cin >> id;
+                getline(cin, id);
                 //verificar que el id exista
-                cout << "Activo devuelto exitosamente!\n" << endl;
-                /*
-                 * Mostrar info del activo a rentar
-                 */
+                Activo *activo = buscarActivo(id);
+
+                if (activo != nullptr) {
+                    if (activo->getEstaRentado() == true) {
+                        cout << "\nActivo a Devuelto;"
+                                "\nID = " << activo->getId() <<
+                                "\nNombre = " << activo->getNombre() <<
+                                "\nDescripcion = " << activo->getDescripcion() << endl;
+
+                        Transaccion *transaccion = new Transaccion(generarAlfanumerico(), "Devolucion",
+                            activo->getTiempoMaxRenta(),usuario->getUsuario(), activo, obtenerFecha());
+                        listaCircularDoble->agregarTransaccion(transaccion);
+                        activo->setEstaRentado(false);
+                        cout << "Activo devuelto exitosamente!\n" << endl;
+                    } else {
+                        cout << "No se puede devolver el activo con el id: " << id << " ya que no esta rentado" << endl;
+                    }
+                } else {
+                    cout << "No se puede devolver el activo con el id: " << id <<
+                            " ya que no se encontro. Por favor verifique el id ingresado" << endl;
+                }
+
                 break;
             }
             case 2: {
@@ -225,6 +369,42 @@ void Cliente::activosRentados() {
         }
         if (regresarMenu) {
             //regresarMenu = false;
+            break;
+        }
+    }
+}
+
+void Cliente::verCatalogoActivosRentados() {
+    NodoLCDE *transActual = listaCircularDoble->getCabeza();
+    if (transActual == nullptr) {
+        return;
+    }
+    while (true) {
+        if (transActual->getTransaccion()->getUsuario() == usuario->getUsuario() && transActual->getTransaccion()->
+            getTipo() == "Renta") {
+            NodoLCDE *transSiguiente = transActual->getSiguiente();
+            bool enRenta = true;
+            while (true) {
+                if (transSiguiente == listaCircularDoble->getCabeza()) {
+                    break;
+                }
+                if (transSiguiente->getTransaccion()->getTipo() == "Devolucion"
+                    && transSiguiente->getTransaccion()->getUsuario() == transActual->getTransaccion()->getUsuario()
+                    && transSiguiente->getTransaccion()->getActivo() == transActual->getTransaccion()->getActivo()) {
+                    enRenta = false;
+                    break;
+                }
+                transSiguiente = transSiguiente->getSiguiente();
+            }
+            if (enRenta) {
+                cout << "ID = " << transActual->getTransaccion()->getActivo()->getId()
+                        << " ; Nombre = " << transActual->getTransaccion()->getActivo()->getNombre()
+                        << " ; Descripcion = " << transActual->getTransaccion()->getActivo()->getDescripcion()
+                        << " ; Tiempo rentado = " << transActual->getTransaccion()->getTiempoRenta() << endl;
+            }
+        }
+        transActual = transActual->getSiguiente();
+        if (transActual == listaCircularDoble->getCabeza()) {
             break;
         }
     }
@@ -236,6 +416,7 @@ void Cliente::misActivosRentados() {
     /*
      * Lista de activos rentados
      */
+    //usuario->getUsuario()->getActivos()->recorrerMisActivosRentados(listaCircularDoble);
     while (true) {
         int opcion;
         cout << "Ingresar 1 para regresar al menú: ";
@@ -257,9 +438,38 @@ void Cliente::misActivosRentados() {
     }
 }
 
+void Cliente::recorrerMisActivosRentados() {
+    //recorrerMisActivosRentados(usuario->getUsuario()->getActivos()->getRaiz());
+}
+
+void Cliente::recorrerMisActivosRentados(NodoAVL *&raiz) {
+
+}
+
+
+
+/*void Cliente::recorrerMisActivosRentados(NodoAVL *&raiz) {
+    if (raiz == nullptr) {
+        return;
+    }
+    if (raiz->getActivo()->getEstaRentado() == true) {
+        NodoLCDE *transaccion = transacciones->getCola();
+        while (true) {
+            if (transaccion->getTransaccion()->getActivo() == raiz->getActivo()) {
+                cout << "ID = " << raiz->getActivo()->getId() << " ; Nombre = " << raiz->getActivo()->getNombre()
+                        << " ; Descripcion = " << raiz->getActivo()->getDescripcion()
+                        << " ; Tiempo rentado = " << transaccion->getTransaccion()->getTiempoRenta() << endl;
+                break;
+            }
+            transaccion = transaccion->getAnterior();
+        }
+    }
+    recorrer(raiz->getIzquierda());
+    recorrer(raiz->getDerecha());
+}*/
+
 std::string Cliente::generarAlfanumerico() {
     string id = "";
-    //srand(time(nullptr));
     for (int i = 0; i < 15; i++) {
         int opcion = rand() % 2;
         if (opcion == 0) {
@@ -272,3 +482,13 @@ std::string Cliente::generarAlfanumerico() {
     return id;
 }
 
+std::string Cliente::obtenerFecha() {
+    time_t timestamp = time(NULL);
+    struct tm datetime = *localtime(&timestamp);
+
+    char output[50];
+    strftime(output, 50, "%d/%m/%Y", &datetime);
+
+    string fecha = string(output);
+    return fecha;
+}

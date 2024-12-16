@@ -13,18 +13,18 @@ int main() {
     int opcion;
     MatrizDispersa *matriz = new MatrizDispersa();
     ListaCircularDoble *listaCircularDoble = new ListaCircularDoble();
-    ArbolAVL *arbolAVL = new ArbolAVL();
 
-    Activo *activo10 = new Activo("K", "A10`", "A10`", 10, false);
+    /*ArbolAVL *arbolAVL = new ArbolAVL();
+    Activo *activo10 = new Activo("K", "A10", "A10`", 10, false);
     Activo *activo5 = new Activo("F", "A5", "A5", 5, false);
-    Activo *activo4 = new Activo("E", "A4", "A4", 4, false);
+    Activo *activo4 = new Activo("E", "A4", "A4", 4, true);
     Activo *activo1 = new Activo("B", "A1", "A1", 1, false);
     Activo *activo3 = new Activo("D", "A3", "A3", 3, false);
     Activo *activo0 = new Activo("A", "A0", "A0", 0, false);
-    Activo *activo6 = new Activo("G", "A6", "A6", 6, false);
+    Activo *activo6 = new Activo("G", "A6", "A6", 6, true);
     Activo *activo12 = new Activo("M", "A12", "A12", 12, false);
     Activo *activo14 = new Activo("O", "A14", "A14", 14, false);
-    Activo *activo11 = new Activo("L", "A11", "A11", 11, false);
+    Activo *activo11 = new Activo("L", "A11", "A11", 11, true);
 
     arbolAVL->insertar(activo10);
     arbolAVL->insertar(activo5);
@@ -37,13 +37,18 @@ int main() {
     arbolAVL->insertar(activo14);
     arbolAVL->insertar(activo11);
 
-    /*arbolAVL->eliminar("K");
+    arbolAVL->eliminar("B");
     arbolAVL->eliminar("D");
+    arbolAVL->eliminar("J");
     arbolAVL->eliminar("M");
-    arbolAVL->eliminar("G");*/
+    arbolAVL->eliminar("G");
     //arbolAVL->modificar("J", "MODIFICADO");
-    arbolAVL->recorrer();
-    cout << endl;
+    //arbolAVL->recorrer();
+    string aux1 = "nUsuario->n" + arbolAVL->getRaiz()->getActivo()->getId() + ";\n";
+    string aux = arbolAVL->generarGrafico(aux1);
+    cout << aux << endl;
+    cout << endl;*/
+
     /*Usuario *usuario1 = new Usuario("U1", "U1", "U1", "Guatemala", "Max");
     Usuario *usuario2 = new Usuario("U2", "U2", "U2", "Xela", "Max");
     Usuario *usuario6 = new Usuario("U6", "U6", "U6", "Alta Verapaz", "Cemaco");
@@ -92,6 +97,52 @@ int main() {
     //Cliente *cliente = new Cliente();
     //cout << cliente->generarAlfanumerico() << endl;
 
+    Cliente *auxCliente = new Cliente();
+
+    Usuario *usuario1 = new Usuario("U1", "U1", "U1", "Xela", "Max");
+    Activo *activo1 = new Activo(auxCliente->generarAlfanumerico(), "A1", "A1", 1, false);
+    Activo *activo2 = new Activo(auxCliente->generarAlfanumerico(), "A2", "A2", 2, false);
+    Activo *activo3 = new Activo(auxCliente->generarAlfanumerico(), "A3", "A3", 3, false);
+    ArbolAVL *arbolAVL = new ArbolAVL();
+
+    arbolAVL->insertar(activo1);
+    arbolAVL->insertar(activo2);
+    arbolAVL->insertar(activo3);
+    usuario1->setActivos(arbolAVL);
+    matriz->insertarUsuario(usuario1);
+
+    Usuario *usuario2 = new Usuario("U2", "U2", "U2", "Guatemala", "Cemaco");
+    Activo *activo12 = new Activo(auxCliente->generarAlfanumerico(), "A12", "A12", 12, false);
+    Activo *activo14 = new Activo(auxCliente->generarAlfanumerico(), "A14", "A14", 14, false);
+    Activo *activo11 = new Activo(auxCliente->generarAlfanumerico(), "A11", "A11", 11, true);
+    ArbolAVL *arbolAVL2 = new ArbolAVL();
+
+    arbolAVL2->insertar(activo12);
+    arbolAVL2->insertar(activo14);
+    arbolAVL2->insertar(activo11);
+    usuario2->setActivos(arbolAVL2);
+    matriz->insertarUsuario(usuario2);
+
+    Usuario *usuario3 = new Usuario("U3", "U3", "U3", "Guatemala", "Max");
+    Activo *activo10 = new Activo(auxCliente->generarAlfanumerico(), "A10", "A10`", 10, false);
+    Activo *activo5 = new Activo(auxCliente->generarAlfanumerico(), "A5", "A5", 5, false);
+    Activo *activo4 = new Activo(auxCliente->generarAlfanumerico(), "A4", "A4", 4, true);
+    ArbolAVL *arbolAVL3 = new ArbolAVL();
+
+    arbolAVL3->insertar(activo10);
+    arbolAVL3->insertar(activo5);
+    arbolAVL3->insertar(activo4);
+    usuario3->setActivos(arbolAVL3);
+    matriz->insertarUsuario(usuario3);
+
+    Administrador *administrador = new Administrador(matriz, listaCircularDoble);
+    //administrador->reporteActivosDisponiblesDepartamento();
+    //administrador->reporteActivosDisponiblesEmpresa();
+    administrador->reporteActivosUsuario();
+
+    //usuario2->setActivos(new ArbolAVL());
+    //matriz->insertarUsuario(usuario2);
+
     /*while (true) {
         cout << "$$$$$$$$$$$$$$$$$$$$  Renta de Activos  $$$$$$$$$$$$$$$$$$$$" << endl;
         cout << "$$$$$$$$$$$$$$$$$$$$ 1. Iniciar sesión  $$$$$$$$$$$$$$$$$$$$" << endl;
@@ -135,10 +186,8 @@ int main() {
                         NodoMD *nodoUsuario = matriz->buscarUsuario(usuario);
                         if (nodoUsuario == nullptr) {
                             cout << "No se encontro el usuario!. Porfavor intentelo denuevo\n" << endl;
-                            //break;
                         } else {
-                            cout << endl;
-                            Cliente *cliente = new Cliente(nodoUsuario, matriz);
+                            Cliente *cliente = new Cliente(nodoUsuario, matriz, listaCircularDoble);
                             cliente->menu();
                             break;
                         }

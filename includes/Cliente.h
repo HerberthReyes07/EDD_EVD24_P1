@@ -6,20 +6,30 @@
 #define CLIENTE_H
 
 #include "Usuario.h"
-#include"matrizDispersa/MatrizDispersa.h"
+#include "listaCircularDoblementeEnlazada/ListaCircularDoble.h"
+#include "matrizDispersa/MatrizDispersa.h"
 #include "matrizDispersa/NodoMD.h"
 
 class Cliente {
 private:
-    MatrizDispersa *matriz;
     NodoMD *usuario;
+    MatrizDispersa *matriz;
+    ListaCircularDoble *listaCircularDoble;
+
+    void verCatalogo();
+
+    void verCatalogoActivosRentados();
+
+    Activo *buscarActivo(std::string id);
+
+    void recorrerMisActivosRentados(NodoAVL *&raiz);
 
 public:
     Cliente();
 
     ~Cliente();
 
-    Cliente(NodoMD *usuario, MatrizDispersa *matriz);
+    Cliente(NodoMD *usuario, MatrizDispersa *matriz, ListaCircularDoble *listaCircularDoble);
 
     NodoMD *getUsuario();
 
@@ -43,7 +53,11 @@ public:
 
     void misActivosRentados();
 
+    void recorrerMisActivosRentados();
+
     std::string generarAlfanumerico();
+
+    std::string obtenerFecha();
 };
 
 #endif //CLIENTE_H

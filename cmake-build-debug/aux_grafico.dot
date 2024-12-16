@@ -1,21 +1,10 @@
 digraph G {
-bgcolor="#F5F5F5";fontcolor=black;
-label="Historial de Transacciones ordenadas Descendentemente";
-labelloc="t";
-nodesep=0.5;
-node [fontsize = 7 shape=box style=filled fillcolor="#004488" fontcolor="#F5F5F5" color=transparent];
-edge [fontcolor=white color="#ff5722"];
-n1[label="id = pnnm9fs582205rx\nTipo = Renta\nUsuario = U2\nActivo = A2\nTiempo renta = 2"];
-n2[label="id = a2c79uka54jmhk5\nTipo = Renta\nUsuario = U1\nActivo = A1\nTiempo renta = 1"];
-n3[label="id = 6ouk351m8v7spv2\nTipo = Renta\nUsuario = U3\nActivo = A3\nTiempo renta = 3"];
-n4[label="id = 51f88i9p0lo66ox\nTipo = Renta\nUsuario = U4\nActivo = A4\nTiempo renta = 4"];
-n1->n2;
-n2->n3;
-n2->n1;
-n3->n4;
-n3->n2;
-n4->n3;
-n4->n1[tailport=n headport=n];
-n1->n4[tailport=s headport=s];
-{ rank=same; n1; n2; n3; n4; }
+n7[label="U3" shape="box"];
+n7->nu1og321q87b9339;
+nu1og321q87b9339[label=A10 style="filled" fillcolor = "green"];
+nu1og321q87b9339->n2csq9re515x011z;
+n2csq9re515x011z[label=A4 style="filled" fillcolor = "red"];
+nu1og321q87b9339->nx59u5ctgt6pl32y;
+nx59u5ctgt6pl32y[label=A5 style="filled" fillcolor = "green"];
+
 }

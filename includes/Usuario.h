@@ -7,6 +7,8 @@
 
 #include <iostream>
 
+#include "arbolAVL/ArbolAVL.h"
+
 class Usuario {
 private:
     std::string username;
@@ -14,7 +16,7 @@ private:
     std::string nombre;
     std::string departamento;
     std::string empresa;
-    //arbolAVL activos;
+    ArbolAVL *activos;
 
 public:
     Usuario();
@@ -33,6 +35,8 @@ public:
 
     std::string getEmpresa();
 
+    ArbolAVL *getActivos();
+
     void setUsersname(std::string username);
 
     void setPassword(std::string password);
@@ -42,6 +46,8 @@ public:
     void setDepartamento(std::string departamento);
 
     void setEmpresa(std::string empresa);
+
+    void setActivos(ArbolAVL *activos);
 };
 
 #endif //USUARIO_H

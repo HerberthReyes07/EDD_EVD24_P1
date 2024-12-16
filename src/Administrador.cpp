@@ -168,6 +168,8 @@ void Administrador::registrarUsuario() {
         if (matriz->buscarUsuario(usuario) != nullptr) {
             cout << "Error!. Ya existe un usuario con mismos: username, departamento y empresa\n" << endl;
         } else {
+            ArbolAVL *activos = new ArbolAVL();
+            usuario->setActivos(activos);
             matriz->insertarUsuario(usuario);
             cout << "El usuario ha sido registrado exitosamente!\n" << endl;
             break;
@@ -232,9 +234,73 @@ void Administrador::reporteMatrizDispersa() {
 }
 
 void Administrador::reporteActivosDisponiblesDepartamento() {
+
+    NodoMD *aux = matriz->getCH();
+    while (aux != nullptr) {
+        cout << aux->getUsuario()->getDepartamento() << ";" << endl;
+        aux = aux->getSiguiente();
+    }
+
+    string departamento;
+    cout << "Ingresar departamento: ";
+    getline(cin, departamento);
+    NodoMD *nodoDepartamento = matriz->getCabezaHorizontal(departamento);
+
+    if (nodoDepartamento == nullptr) {
+        cout << "Departamento inexistente" << endl;
+        return;
+    }
+
+    NodoMD *usuario = nodoDepartamento->getAbajo();
+    string grafico = "digraph G {\n";;
+    while (usuario != nullptr) {
+        NodoMD *usuarioAtras = usuario;
+        while(usuarioAtras != nullptr) {
+            grafico += "n" + to_string(usuarioAtras->getIdNodo()) + "[label=\"" + usuarioAtras->getUsuario()->getUsername() + "\" shape=\"box\"];\n";
+            grafico += "n" + to_string(usuarioAtras->getIdNodo()) + "->n" + usuarioAtras->getUsuario()->getActivos()->getRaiz()->getActivo()->getId() + ";\n";
+            grafico += usuarioAtras->getUsuario()->getActivos()->generarGrafico();
+            usuarioAtras = usuarioAtras->getAtras();
+        }
+        usuario = usuario->getAbajo();
+    }
+    grafico += "\n}";
+    //cout << grafico << endl;
+    graficar("../reporteActivosDisponiblesDepartamento/activos_" + departamento +".svg", grafico);
 }
 
 void Administrador::reporteActivosDisponiblesEmpresa() {
+
+    NodoMD *aux = matriz->getCV();
+    while (aux != nullptr) {
+        cout << aux->getUsuario()->getEmpresa() << ";" << endl;
+        aux = aux->getAbajo();
+    }
+
+    string empresa;
+    cout << "Ingresar empresa: ";
+    getline(cin, empresa);
+    NodoMD *nodoEmpresa = matriz->getCabezaVertical(empresa);
+
+    if (nodoEmpresa == nullptr) {
+        cout << "Empresa inexistente" << endl;
+        return;
+    }
+
+    NodoMD *usuario = nodoEmpresa->getSiguiente();
+    string grafico = "digraph G {\n";
+    while (usuario != nullptr) {
+        NodoMD *usuarioAtras = usuario;
+        while(usuarioAtras != nullptr) {
+            grafico += "n" + to_string(usuarioAtras->getIdNodo()) + "[label=\"" + usuarioAtras->getUsuario()->getUsername() + "\" shape=\"box\"];\n";
+            grafico += "n" + to_string(usuarioAtras->getIdNodo()) + "->n" + usuarioAtras->getUsuario()->getActivos()->getRaiz()->getActivo()->getId() + ";\n";
+            grafico += usuarioAtras->getUsuario()->getActivos()->generarGrafico();
+            usuarioAtras = usuarioAtras->getAtras();
+        }
+        usuario = usuario->getSiguiente();
+    }
+    grafico += "\n}";
+    //cout << grafico << endl;
+    graficar("../reporteActivosDisponiblesEmpresa/activos_" + empresa +".svg", grafico);
 }
 
 void Administrador::reporteTransacciones(ListaCircularDoble *lcde, std::string nombre, int orden) {
@@ -248,7 +314,7 @@ void Administrador::reporteTransacciones(ListaCircularDoble *lcde, std::string n
 
     string config =
             "bgcolor=\"#F5F5F5\";fontcolor=black;\nlabel=\"Historial de Transacciones " + auxNombre +
-            "\";\nlabelloc=\"t\";\nnodesep=0.5;\nnode [fontsize = 7 shape=box style=filled fillcolor=\"#004488\" fontcolor=\"#F5F5F5\" color=transparent];\nedge [fontcolor=white color=\"#ff5722\"];\n";
+            "\";\nlabelloc=\"t\";\nnodesep=0.5;\nnode [fontsize = 5 shape=box style=filled fillcolor=\"#004488\" fontcolor=\"#F5F5F5\" color=transparent];\nedge [fontcolor=white color=\"#ff5722\"];\n";
 
     string defNodo;
     string relNodo;
@@ -274,7 +340,7 @@ void Administrador::reporteTransacciones(ListaCircularDoble *lcde, std::string n
         encuadre += nodoActual + "; ";
         id++;
         aux = aux->getSiguiente();
-        if (aux == lcde->getCabeza()) {
+        if (aux == lcde->getCabeza() || aux == nullptr) {
             break;
         }
     }
@@ -288,7 +354,58 @@ void Administrador::reporteTransacciones(ListaCircularDoble *lcde, std::string n
 }
 
 void Administrador::reporteActivosUsuario() {
+    verUsuarios();
+
+    Usuario *usuario = new Usuario();
+
+    string username;
+    cout << "Ingresar Usuario: ";
+    getline(cin, username);
+    usuario->setUsersname(username);
+
+    string departamento;
+    cout << "Ingresar Departamento: ";
+    getline(cin, departamento);
+    usuario->setDepartamento(departamento);
+
+    string empresa;
+    cout << "Ingresar Empresa: ";
+    getline(cin, empresa);
+    usuario->setEmpresa(empresa);
+
+    NodoMD *nodoUsuario = matriz->buscarUsuario(usuario);
+    if (nodoUsuario == nullptr) {
+        cout << "No se encontro el usuario!. Porfavor intentelo denuevo\n" << endl;
+    } else {
+        string grafico = "digraph G {\n";;
+        grafico += "n" + to_string(nodoUsuario->getIdNodo()) + "[label=\"" + nodoUsuario->getUsuario()->getUsername() + "\" shape=\"box\"];\n";
+        grafico += "n" + to_string(nodoUsuario->getIdNodo()) + "->n" + nodoUsuario->getUsuario()->getActivos()->getRaiz()->getActivo()->getId() + ";\n";
+        grafico += nodoUsuario->getUsuario()->getActivos()->generarGrafico();
+        grafico += "\n}";
+        //cout << grafico << endl;
+        graficar("../reporteActivosUsuario/activos_" + username +".svg", grafico);
+    }
 }
+
+void Administrador::verUsuarios() {
+    NodoMD *nodoV = matriz->getCV();
+
+    while (nodoV != nullptr) {
+        NodoMD *nodoU = nodoV->getSiguiente();
+        while (nodoU != nullptr) {
+            NodoMD *nodoUA = nodoU;
+            while (nodoUA != nullptr) {
+                cout << "Usuario = " + nodoUA->getUsuario()->getUsername() + "; "
+                + "Departamento = " + nodoUA->getUsuario()->getDepartamento() + "; "
+                + "Empresa = " + nodoUA->getUsuario()->getEmpresa() + ";\n";
+                nodoUA = nodoUA->getAtras();
+            }
+            nodoU = nodoU->getSiguiente();
+        }
+        nodoV = nodoV->getAbajo();
+    }
+}
+
 
 void Administrador::activosRentadosUsuario() {
 }
