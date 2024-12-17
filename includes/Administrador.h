@@ -44,7 +44,7 @@ public:
 
     void ordenarTransacciones(std::string nombreOrden, int orden);
 
-    bool insertarAtras(std::string username);
+    bool insertarAtras(std::string username, std::string usernameM);
 
     void graficar(std::string path, std::string grafico);
 };

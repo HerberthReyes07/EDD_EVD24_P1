@@ -137,6 +137,7 @@ void Cliente::agregarActivo() {
 
     Activo *activo = new Activo(generarAlfanumerico(), nombre, descripcion, diasMaxRenta, false);
     usuario->getUsuario()->getActivos()->insertar(activo);
+    cout << "Activo agregado correctamente!" << endl;
 }
 
 void Cliente::eliminarActivo() {
@@ -532,7 +533,7 @@ void Cliente::misActivosRentados() {
     while (true) {
         int opcion;
         try {
-            cout << "Ingresar 1 para regresar al menú: ";
+            cout << "\nIngresar 1 para regresar al menú: ";
             cin >> opcion;
             if (!cin) {
                 throw invalid_argument("Entrada inválida, porfavor intentelo denuevo.");

@@ -284,11 +284,18 @@ void Administrador::reporteActivosDisponiblesDepartamento() {
     while (usuario != nullptr) {
         NodoMD *usuarioAtras = usuario;
         while (usuarioAtras != nullptr) {
-            grafico += "n" + to_string(usuarioAtras->getIdNodo()) + "[label=\"" + usuarioAtras->getUsuario()->
+            if(usuarioAtras->getUsuario()->getActivos()->getRaiz() != nullptr) {
+                grafico += "n" + to_string(usuarioAtras->getIdNodo()) + "[label=\"" + usuarioAtras->getUsuario()->
+                    getUsername() + "\" shape=\"box\"];\n";
+                grafico += "n" + to_string(usuarioAtras->getIdNodo()) + "->n" + usuarioAtras->getUsuario()->getActivos()->
+                        getRaiz()->getActivo()->getId() + ";\n";
+                grafico += usuarioAtras->getUsuario()->getActivos()->generarGrafico();
+            }
+            /*grafico += "n" + to_string(usuarioAtras->getIdNodo()) + "[label=\"" + usuarioAtras->getUsuario()->
                     getUsername() + "\" shape=\"box\"];\n";
             grafico += "n" + to_string(usuarioAtras->getIdNodo()) + "->n" + usuarioAtras->getUsuario()->getActivos()->
                     getRaiz()->getActivo()->getId() + ";\n";
-            grafico += usuarioAtras->getUsuario()->getActivos()->generarGrafico();
+            grafico += usuarioAtras->getUsuario()->getActivos()->generarGrafico();*/
             usuarioAtras = usuarioAtras->getAtras();
         }
         usuario = usuario->getAbajo();
@@ -326,11 +333,18 @@ void Administrador::reporteActivosDisponiblesEmpresa() {
     while (usuario != nullptr) {
         NodoMD *usuarioAtras = usuario;
         while (usuarioAtras != nullptr) {
-            grafico += "n" + to_string(usuarioAtras->getIdNodo()) + "[label=\"" + usuarioAtras->getUsuario()->
+            if(usuarioAtras->getUsuario()->getActivos()->getRaiz() != nullptr) {
+                grafico += "n" + to_string(usuarioAtras->getIdNodo()) + "[label=\"" + usuarioAtras->getUsuario()->
+                    getUsername() + "\" shape=\"box\"];\n";
+                grafico += "n" + to_string(usuarioAtras->getIdNodo()) + "->n" + usuarioAtras->getUsuario()->getActivos()->
+                        getRaiz()->getActivo()->getId() + ";\n";
+                grafico += usuarioAtras->getUsuario()->getActivos()->generarGrafico();
+            }
+            /*grafico += "n" + to_string(usuarioAtras->getIdNodo()) + "[label=\"" + usuarioAtras->getUsuario()->
                     getUsername() + "\" shape=\"box\"];\n";
             grafico += "n" + to_string(usuarioAtras->getIdNodo()) + "->n" + usuarioAtras->getUsuario()->getActivos()->
                     getRaiz()->getActivo()->getId() + ";\n";
-            grafico += usuarioAtras->getUsuario()->getActivos()->generarGrafico();
+            grafico += usuarioAtras->getUsuario()->getActivos()->generarGrafico();*/
             usuarioAtras = usuarioAtras->getAtras();
         }
         usuario = usuario->getSiguiente();
@@ -411,7 +425,20 @@ void Administrador::reporteActivosUsuario() {
     if (nodoUsuario == nullptr) {
         cout << "No se encontro el usuario!. Porfavor intentelo denuevo\n" << endl;
     } else {
-        string grafico = "digraph G {\nfontcolor=black;\nlabel=\"Activos " + username + " \";\nlabelloc=\"t\";\n";
+        if(nodoUsuario->getUsuario()->getActivos()->getRaiz() == nullptr) {
+            cout << "El usuario no tiene acitvos!.\n" << endl;
+        } else {
+            string grafico = "digraph G {\nfontcolor=black;\nlabel=\"Activos " + username + " \";\nlabelloc=\"t\";\n";
+            grafico += "n" + to_string(nodoUsuario->getIdNodo()) + "[label=\"" + nodoUsuario->getUsuario()->getUsername() +
+                    "\" shape=\"box\"];\n";
+            grafico += "n" + to_string(nodoUsuario->getIdNodo()) + "->n" + nodoUsuario->getUsuario()->getActivos()->
+                    getRaiz()->getActivo()->getId() + ";\n";
+            grafico += nodoUsuario->getUsuario()->getActivos()->generarGrafico();
+            grafico += "\n}";
+            //cout << grafico << endl;
+            graficar("../reporteActivosUsuario/activos_" + username + ".svg", grafico);
+        }
+        /*string grafico = "digraph G {\nfontcolor=black;\nlabel=\"Activos " + username + " \";\nlabelloc=\"t\";\n";
         grafico += "n" + to_string(nodoUsuario->getIdNodo()) + "[label=\"" + nodoUsuario->getUsuario()->getUsername() +
                 "\" shape=\"box\"];\n";
         grafico += "n" + to_string(nodoUsuario->getIdNodo()) + "->n" + nodoUsuario->getUsuario()->getActivos()->
@@ -419,7 +446,7 @@ void Administrador::reporteActivosUsuario() {
         grafico += nodoUsuario->getUsuario()->getActivos()->generarGrafico();
         grafico += "\n}";
         //cout << grafico << endl;
-        graficar("../reporteActivosUsuario/activos_" + username + ".svg", grafico);
+        graficar("../reporteActivosUsuario/activos_" + username + ".svg", grafico);*/
     }
 }
 
@@ -542,12 +569,12 @@ void Administrador::ordenarTransacciones(std::string nombreOrden, int orden) {
                          "../reporteTransacciones/transacciones_ordenadas_" + nombreOrden + ".svg");
 }
 
-bool Administrador::insertarAtras(string username) {
+bool Administrador::insertarAtras(string username, string usernameM) {
     while (true) {
-        cout << "\n$$$$$$$$$$$$$$$$$$$$      1. Insertar adelante de usuario: " << username <<
+        cout << "\n$$$$$$$$$$$$$$$$$$$$      1. Insertar usuario: " << username << " adelante de usuario: " << usernameM <<
                 "        $$$$$$$$$$$$$$$$$$$$" <<
                 endl;
-        cout << "$$$$$$$$$$$$$$$$$$$$      2. Insertar atrás de usuario: " << username <<
+        cout << "$$$$$$$$$$$$$$$$$$$$      2. Insertar usuario: " << username << " atrás de usuario: " << usernameM <<
                 "        $$$$$$$$$$$$$$$$$$$$\n"
                 << endl;
 

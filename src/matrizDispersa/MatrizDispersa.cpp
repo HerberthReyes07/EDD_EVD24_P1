@@ -228,7 +228,8 @@ void MatrizDispersa::insertarUsuario(Usuario *usuario) {
         NodoMD *cabeceraHorizontal = buscarCabezaHorizontal(auxUsuario);
         if (cabeceraHorizontal == departamento) {
             Administrador *administrador = new Administrador();
-            insertarUsuarioAtrasAdelante(usuarioNuevo, auxUsuario, administrador->insertarAtras(auxUsuario->getUsuario()->getUsername()));
+            bool opt = administrador->insertarAtras(usuario->getUsername(), auxUsuario->getUsuario()->getUsername());
+            insertarUsuarioAtrasAdelante(usuarioNuevo, auxUsuario, opt);
             return;
         }
         if(!masDerecha(cabeceraHorizontal, departamento)) {
